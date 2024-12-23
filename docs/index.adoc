@@ -1,0 +1,36 @@
+= lp-doc System
+Dirk Leese <dirk.leese@mac.com>
+include::./version.adoc[]
+:doctype: book
+:toc: left
+:toclevels: 3
+:sectnums:
+:sectnumlevels: 4
+:imagesdir: ./images/
+// :data-uri: uncomment this line to embedd picture in single html file
+
+[abstract]
+The lp-doc project is the idea to generate documentations for different kind of content.
+
+== Preface
+Preface information going here.
+
+== Introduction
+Introduction goes here 
+
+=== Purpose
+This section describes the purpose and the scope of the document.
+
+=== Audience
+This section identifies the intended audience, such as system administrators and IT professionals.
+
+=== Conventions
+This section explains the typographical conventions and symbols used throughout the guide.
+
+
+//include::./admin/mui/mui_abstract.adoc[leveloffset=+1]
+
+//include::./admin/flightmanager/fm_abstract.adoc[leveloffset=+1]
+
+// include::./admin/flightmanager/fm_process.adoc[leveloffset=+1]
+
