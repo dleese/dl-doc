@@ -13,7 +13,7 @@ include::./version.adoc[]
 The lp-doc project is the idea to generate documentations for different kind of content.
 
 == Preface
-Preface information going here.
+Preface information going here. Modified by Dirk on the 14th of January
 
 == Introduction
 Introduction goes here 
