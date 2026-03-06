@@ -1,2 +1,0 @@
-Version: @GIT_VERSION@
-

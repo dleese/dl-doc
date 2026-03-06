@@ -1,0 +1,14 @@
+{
+  "name": "mui-screenshots",
+  "version": "1.0.0",
+  "description": "Automated Logipad MUI screenshot capture for documentation",
+  "private": true,
+  "scripts": {
+    "capture": "node capture.js",
+    "postinstall": "npx playwright install chromium"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "playwright": "^1.49.0"
+  }
+}

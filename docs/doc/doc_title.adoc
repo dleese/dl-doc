@@ -1,0 +1,36 @@
+= lp-doc
+:Author: Dirk Leese
+:email: <dirk.leese@dextradata.com>
+:revnumber: 1.0.0
+:revremark: initial version
+
+
+:doctype: article
+:title-page: true
+
+:toc:
+:toc-title: Table of Contents
+:toclevels: 3
+:sectnums:
+:sectnumlevels: 4
+:imagesdir: images
+
+:title-page-background-image: dd/dd_title_page.svg[]
+
+// :data-uri: uncomment this line to embed picture in single html file
+
+[abstract]
+This document provides operational and technical documentation for the Logipad EFB/EFF system. It covers infrastructure, identity management, briefing, the Library module, and quick reference procedures.
+
+
+include::contacts.adoc[leveloffset=+1]
+
+include::infrastructure.adoc[leveloffset=+1]
+
+include::keycloak.adoc[leveloffset=+1]
+
+include::briefingprocess.adoc[leveloffset=+1]
+
+include::quick_reference_guide.adoc[leveloffset=+1]
+
+include::library.adoc[leveloffset=+1]

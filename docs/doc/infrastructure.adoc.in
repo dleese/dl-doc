@@ -1,0 +1,70 @@
+= Infrastructure
+
+The infrastructure consists of the following components:
+
+* Keycloak (identity and access management)
+* Management User Interface (MUI)
+* Flight- and Briefing-Manager
+* iOS client (iPad application)
+* Web client
+
+== Keycloak
+
+Keycloak is the identity and access management (IAM) platform for the Logipad system. All authentication and authorization are managed centrally through Keycloak. Keycloak provides secure user access and role-based permissions across Logipad components.
+
+[[keycloak-url]]
+.Keycloak interface URL
+[%autowidth%header,cols="60%,20%,20%"]
+|===
+| URL | Login name | Password
+
+| https://keycloak-cloud.logipad.net/admin/@LP_CUSTOMER_DOMAIN@/console/
+| support@logipad.aero
+| password
+|===
+
+== MUI
+
+The Management User Interface (MUI) is the central point for administering the Logipad system. It is used and configured by EFB administrators. The following table applies to @LP_CUSTOMER_COMPANY_NAME@.
+
+.Administrative interface URL
+[%autowidth%header,cols="1,1,1"]
+|===
+| URL | Login name | Password
+
+| https://mui.@LP_CUSTOMER_DOMAIN@.prod.logipad.aero
+| admin user
+| password
+|===
+
+== Flight- and Briefing-Manager
+
+The Flight- and Briefing-Manager is the central component for administering and managing briefing and EFF content.
+
+.Flight- and Briefing-Manager URL
+[%autowidth%header,cols="1,1,1"]
+|===
+| URL | Login name | Password
+
+| https://flightmanager.@LP_CUSTOMER_DOMAIN@.prod.logipad.aero
+| admin user
+| password
+|===
+
+== Web client
+
+The web client is the working environment for pilots, cabin crew, and maintenance personnel to access data and content assigned to their roles.
+
+.Web client URL
+[%autowidth%header,cols="1,1,1"]
+|===
+| URL | Login name | Password
+
+| https://webclient.@LP_CUSTOMER_DOMAIN@.prod.logipad.aero
+| user
+| password
+|===
+
+== iOS clients
+
+The iOS client is the working device for pilots, cabin crew, and maintenance personnel to access data and content assigned to their roles. The iOS application is preconfigured for the deployment.

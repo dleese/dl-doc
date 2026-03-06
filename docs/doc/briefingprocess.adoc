@@ -1,0 +1,24 @@
+= Briefing
+
+A briefing contains the complete flight package data: aircraft status, weather, NOTAMs, flight plans, and other information required for the flight. The briefing package is transmitted by Dispatch to the crew member’s EFB when the crew member is assigned to a scheduled flight. The briefing is provided in electronic form and replaces the paper briefing.
+
+== iPad briefing settings
+
+Logipad applies default briefing settings to the application; these may vary by customer configuration. The figure below shows an example of the briefing configuration.
+
+[.center-caption]
+.iPad briefing configuration settings
+image::./mui/ipad_briefing_settings.png[Briefing Settings,400,400,float="center",align="center"]
+
+. **Recent filter**: Can be set to:
+* none
+* STD not later than 24 hours
+. **Remove archived briefings after**: Can be set to:
+* 2 weeks
+* 3 months
+* 6 months
+* 1 year
+* never
+. **Display F/U-Updates separately**: If enabled, each F/U update cycle is shown. If disabled, only the latest version is displayed in the Briefing-Info section.
+. **Upload finalized briefings immediately**: If enabled, finalized briefings are uploaded to the Logipad server once a connection is available.
+. **Automatic briefing transfer**: If enabled, data recorded in the Briefing module is automatically transferred to iPads nearby.

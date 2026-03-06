@@ -1,0 +1,168 @@
+extends: default
+
+# Colors
+base:
+  text_color: '#222222'
+  background_color: '#ffffff'
+
+page:
+  margin: [1in, 1in, 1in, 1in]
+
+colors:
+  primary: '#003366'       # Aviation navy blue (h2 headers, key elements)
+  secondary: '#f0f4f8'     # Soft light background (matches CSS --color-secondary)
+  accent: '#d32f2f'        # Safety red for warnings and accents
+  link_color: '#0056b3'    # Link normal
+  link_hover_color: '#003d80' # Link hover
+
+# Fonts and text
+font:
+  catalog:
+    Inter:
+      normal: '/Users/dirk/Library/Fonts/Inter-Regular.otf'
+      bold: '/Users/dirk/Library/Fonts/Inter-Bold.otf'
+      italic: '/Users/dirk/Library/Fonts/Inter-Italic.otf'
+      bold_italic: '/Users/dirk/Library/Fonts/Inter-BoldItalic.otf'
+    'Noto Serif':
+      normal: '/Users/dirk/Library/Fonts/Inter-Regular.otf'
+      bold: '/Users/dirk/Library/Fonts/Inter-Bold.otf'
+      italic: '/Users/dirk/Library/Fonts/Inter-Italic.otf'
+      bold_italic: '/Users/dirk/Library/Fonts/Inter-BoldItalic.otf'
+    'M+ 1mn':
+      normal: '/Users/dirk/Library/Fonts/Inter-Regular.otf'
+      bold: '/Users/dirk/Library/Fonts/Inter-Bold.otf'
+      italic: '/Users/dirk/Library/Fonts/Inter-Italic.otf'
+      bold_italic: '/Users/dirk/Library/Fonts/Inter-BoldItalic.otf'
+  family: 'Inter'
+  size: 18
+  line_height: 1.6
+
+# Define header height to make room
+header:
+  height: 0.5in
+  line_height: 1
+  recto:
+    center:
+      content: '{document-title}' # Title in center of right-hand pages
+    right:
+      content: '{page-number}'    # Page number on right
+  verso:
+    left:
+      content: '{page-number}'    # Page number on left
+    center:
+      content: '{document-title}' # Title in center of left-hand pages
+
+heading:
+  h1:
+    font_color: '#003366'
+    font_size: 32
+    font_weight: bold
+  h2:
+    font_color: '#003366'
+    font_size: 22
+    font_weight: bold
+  h3:
+    font_color: '#003366'
+    font_size: 18
+    font_weight: bold
+
+# Title page settings
+title-page:
+  align: center
+  background-image: '/Users/dirk/develop/documentations/dl-doc/docs/doc/images/dd/dd_title_page.svg'
+  background-size: cover
+  background-position: center
+  title:
+    font-family: 'Inter'
+    font-size: 32
+    font-color: '#003366'      # Aviation navy blue
+    margin-bottom: 30
+    font-weight: bold
+  subtitle:
+    font-family: 'Inter'
+    font-size: 18
+    font-color: '#666666'
+    margin-bottom: 20
+    font-style: italic
+  authors:
+    font-family: 'Inter'
+    font-size: 14
+    font-color: '#444444'
+    margin-bottom: 15
+  revision:
+    font-family: 'Inter'
+    font-size: 12
+    font-color: '#888888'
+    margin-top: 10
+    
+# Block titles (e.g. figure captions) centered
+block_title:
+  align: center
+  text_align: center
+
+# Image block: center the figure caption in PDF
+image:
+  caption:
+    align: center
+    text-align: center
+
+# Tables styling (framed tables: 3-column layout with optional nested tables in cells)
+table:
+  border_color: '#003366'        # Strong frame border for framed tables
+  border_width: 2                # Visible outer frame
+  border_radius: 6
+  cell_padding: [12, 16, 12, 16] # [top, right, bottom, left] matching CSS padding: 0.75rem 1rem
+  cell_border_color: '#cbd6e2'
+  cell_border_width: 1
+  # Nested tables (e.g. 2x2 inside a cell) inherit these; inner frame can use frame=none in .adoc
+  head:
+    background_color: '#003366'  # Matches CSS th background: var(--color-primary)
+    font_color: '#ffffff'        # Matches CSS th color: white
+    font_weight: 600             # Matches CSS th font-weight: 600
+  body:
+    background_color: '#ffffff'  # Default background for odd rows (matches CSS default)
+    stripe_background_color: '#f6f9fc'  # Matches CSS tr:nth-child(even) background: #f6f9fc
+
+# Sidebar/navigation simulated (if possible)
+sidebar:
+  background_color: '#e6f0fa'
+  border_color: '#cbd6e2'
+
+# Links (include underline if supported)
+link:
+  font_color: '#0056b3'
+  font_decoration: underline
+
+# Warnings and caution blocks
+admonition:
+  warning:
+    border_color: '#d32f2f'
+    background_color: '#fdecea'
+    font_color: '#d32f2f'
+  caution:
+    border_color: '#f9a825'  # Amber
+    background_color: '#fff8e1'
+    font_color: '#f57f17'
+
+# Code blocks
+code:
+  font_family: 'SF Mono, Consolas, Courier New, monospace'
+  background_color: '#f4f6f9'
+  border_color: '#cbd6e2'
+  font_size: 11
+
+pre:
+  background_color: '#f4f6f9'
+  border_color: '#cbd6e2'
+  font_family: 'SF Mono, Consolas, Courier New, monospace'
+  font_size: 11
+  padding: 12
+
+# Paragraph blocks (like blockquote)
+quote:
+  border_color: '#003366'
+  background_color: '#e8f0fe'
+  font_color: '#003366'
+  font_style: italic
+  padding: 16
+  border_width: 4

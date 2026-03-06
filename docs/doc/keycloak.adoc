@@ -1,0 +1,35 @@
+= Keycloak
+
+Keycloak is the identity and access management (IAM) solution used by Logipad. It provides single sign-on (SSO), user authentication and authorization, and role-based access control. Integration with LDAP and Active Directory is supported. Administration is performed through the web-based administration console.
+
+For each customer deployment, the user support@logipad.aero is configured in Keycloak with administrator privileges to manage users and permissions. This ensures consistent, centralized identity management across all customer realms.
+
+Login URL: xref:infrastructure.adoc#keycloak-url[keycloak-interface-url]
+
+== Keycloak administration
+
+User and access management is performed through the web-based administration console. The console is used to manage users, roles, and permissions, and to configure Keycloak for LDAP or Active Directory authentication.
+
+== Keycloak API
+
+The Keycloak API supports programmatic management of users, roles, and permissions and can be used to integrate Keycloak with other applications.
+
+== Manage local users
+
+Use the Keycloak administration console to create, edit, and delete local users and to assign roles and permissions.
+
+ifdef::enable-azure[]
+== Manage Microsoft Azure AD users
+
+To configure Keycloak to authenticate against Microsoft Azure Active Directory (Entra ID):
+
+. Open the Keycloak administration console and select the target realm.
+. In the left menu, go to "Identity Providers" and click "Add provider".
+. Select "OpenID Connect v1.0" as the provider type.
+. Enter a name for the identity provider (e.g. "AzureAD").
+. In "OpenID Connect Configuration URL", enter the Entra ID metadata URL: `https://login.microsoftonline.com/{tenant-id}/v2.0/.well-known/openid-configuration` (replace `{tenant-id}` with your Azure tenant ID).
+. Enter the Client ID and Client Secret from the Azure AD app registration for this Keycloak instance.
+. Set the appropriate scopes (typically `openid email profile`) and save.
+
+After saving, users can sign in with Microsoft Azure AD when accessing Logipad applications. Keycloak federates authentication and user identity from Entra ID.
+endif::[]

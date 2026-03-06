@@ -1,0 +1,19 @@
+{
+  "viewport": { "width": 1920, "height": 1080 },
+  "baseUrl": "https://mui.demo.prod.logipad.net",
+  "login": {
+    "keycloak": true,
+    "urlPath": "/",
+    "usernameSelector": "#username",
+    "passwordSelector": "#password",
+    "submitSelector": "#kc-login",
+    "waitAfterLoginMs": 3000
+  },
+  "captures": [
+    { "name": "users", "path": "/users", "filename": "mui_users.png" },
+    { "name": "Roles", "path": "/Roles", "filename": "mui_roles.png" },
+    { "name": "Notifications", "path": "/Notifications", "filename": "mui_notifications.png" },
+    { "name": "Library", "path": "/Documents", "filename": "mui_library.png" },
+    { "name": "eFormsDefinitions", "path": "/eFormsDefinitions", "filename": "mui_eFormsDefinitions.png" }
+  ]
+}

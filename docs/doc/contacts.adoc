@@ -1,0 +1,15 @@
+= Contacts
+
+.Support contacts
+[cols="2,1,1"]
+|===
+| E-mail | Name | Phone
+
+| dirk.leese@dextradata.com
+| Dirk Leese
+| +49 172 2866667
+
+| larissa.ihnen@dextradata.com
+| Larissa Ihnen
+| +49 172 2867515
+|===

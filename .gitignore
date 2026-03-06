@@ -1,9 +1,13 @@
 # ignore unwanted files 
 *~
 .DS_Store
+.env
 
 # ignore special folder '.asciidoctor'
-.asciidoctor/ 
+.asciidoctor/
+
+# npm / Node
+node_modules/ 
 
 # ignore the build directory
 build/

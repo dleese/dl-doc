@@ -1,0 +1,23 @@
+= Logipad quick reference guide
+
+This guide provides a quick reference to the main features of Logipad.
+
+== Login and authentication
+
+After the Logipad application is started, users log in with their credentials.
+
+[.center-caption]
+.Logipad login screen
+image::./mui/mui_login.png[Logipad login screen,500,500,float="center",align="center"]
+
+[.center-caption]
+.Logipad login credentials
+image::./mui/mui_login_credentials.png[Logipad login credentials,500,500,float="center",align="center"]
+
+== Logout
+
+To log out, click the Logout button.
+
+[.center-caption]
+.Logipad logout
+image::./mui/mui_logout.png[Logipad logout,500,500,float="center",align="center"]
