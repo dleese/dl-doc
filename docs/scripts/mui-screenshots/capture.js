@@ -88,7 +88,14 @@ async function main() {
 
       // Wait for redirect back to MUI (URL contains base host)
       const muiHost = new URL(baseUrl).host;
-      await page.waitForURL((u) => u.host === muiHost, { timeout: 20000 }).catch(() => {});
+      try {
+        await page.waitForURL((u) => u.host === muiHost, { timeout: 20000 });
+      } catch (e) {
+        throw new Error(
+          `Keycloak login failed or redirect to MUI did not complete within 20s. ` +
+          `Check credentials and that MUI redirects back to ${baseUrl}. Original: ${e.message}`
+        );
+      }
       const waitMs = login.waitAfterLoginMs ?? 3000;
       await page.waitForTimeout(waitMs);
     } else {
