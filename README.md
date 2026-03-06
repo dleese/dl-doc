@@ -12,6 +12,8 @@ This project uses **CMake** to build documentation in multiple formats (HTML and
 - [Doxygen Documentation](#doxygen-documentation)
 - [Output Locations](#output-locations)
 - [Optional Features](#optional-features)
+- [Git Workflow](#git-workflow)
+- [Git Best Practices](#git-best-practices)
 - [Troubleshooting](#troubleshooting)
 
 ## Prerequisites
@@ -303,13 +305,55 @@ make doc
 
 ### Version Management
 
-The project version is automatically extracted from Git tags. When you tag a release:
+The project version is automatically extracted from Git tags. See [Git Workflow](#git-workflow) for how to create and push release tags.
 
-```bash
-git tag v1.0.0
-```
+## Git Workflow
 
-The version will be automatically included in the generated documentation.
+This project uses **GitHub Flow**: `main` is the only long-lived branch and is always releasable. Work is done on short-lived feature branches, then merged into `main`.
+
+### Branch roles
+
+- **`main`** — Production-ready documentation. All merges go here. Release tags (e.g. `v1.1.0`) are created from `main`.
+- **`feature/<topic>`** — Created from `main` for a single change (e.g. `feature/library-chapter`, `feature/mui-screenshots-fix`). Merge back into `main` when done, via pull request or direct merge.
+
+### Step-by-step workflow
+
+1. Start from an up-to-date `main`:
+   ```bash
+   git checkout main
+   git pull --rebase origin main
+   ```
+2. Create a feature branch:
+   ```bash
+   git checkout -b feature/short-description
+   ```
+3. Make changes, commit (see [Git Best Practices](#git-best-practices)), push:
+   ```bash
+   git push -u origin feature/short-description
+   ```
+4. Merge into `main` (e.g. via pull request on GitHub, or locally):
+   ```bash
+   git checkout main
+   git merge feature/short-description
+   git push origin main
+   ```
+5. To release: create an annotated tag from `main`, then push the tag:
+   ```bash
+   git checkout main
+   git pull origin main
+   git tag -a v1.2.0 -m "Release v1.2.0: description of changes"
+   git push origin v1.2.0
+   ```
+   The documentation build will use this tag for version info (see `docs/cmake/GitVersion.cmake`).
+
+## Git Best Practices
+
+- **Commit messages** — Use conventional commits: `type(scope): description`. Examples: `fix(mui-screenshots): do not swallow Keycloak errors`, `docs: add Library chapter`, `feat(scripts): add Keycloak login to capture`. One logical change per commit.
+- **Branch naming** — Use `feature/<short-name>`, or if you adopt release/hotfix branches later: `release/<version>`, `hotfix/<short-name>`.
+- **Before pushing** — Run `git pull --rebase origin main` (from `main` or before merging) to avoid unnecessary merge commits.
+- **No force push** — Do not force-push to `main`; keep history stable for tags and releases.
+- **Tags** — Use annotated tags for releases: `git tag -a v1.2.0 -m "Release message"`. Push tags explicitly: `git push origin v1.2.0`.
+- **Secrets** — Never commit `.env` or secrets; they are listed in `.gitignore`.
 
 ## Environment Information
 
