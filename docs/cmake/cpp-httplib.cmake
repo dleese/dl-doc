@@ -1,3 +1,5 @@
+# cpp-httplib: not currently included by the root CMakeLists.txt.
+# Include this module when adding C++ API documentation or tooling that needs the httplib dependency.
 function(CppHttpLib)
   # Check if httplib is already available to avoid redundant fetches
   if(TARGET httplib)

@@ -40,7 +40,7 @@ The PDF generation requires the **Inter** font family to be installed:
 - **Inter-Italic.otf**
 - **Inter-BoldItalic.otf**
 
-On macOS, these should be placed in: `~/Library/Fonts/`
+On macOS, place them in `~/Library/Fonts/`. On Linux, use e.g. `~/.local/share/fonts` or `/usr/share/fonts` and ensure the PDF build’s `pdf-fontsdir` (in `docs/doc/CMakeLists.txt`) points to that directory.
 
 Download the Inter font family from [Google Fonts](https://fonts.google.com/specimen/Inter).
 
@@ -124,6 +124,8 @@ open build/doc/bin/doc_title.html
 
 ## Building PDF Documentation
 
+PDF generation uses Asciidoctor-PDF and requires Ruby with the `bigdecimal` gem. On macOS, if `gem install bigdecimal` fails with "The compiler failed to generate an executable file", install the Xcode Command Line Tools first: `xcode-select --install`. Then run `gem install bigdecimal` and rebuild.
+
 ### Configure for PDF Output
 
 ```bash
@@ -151,15 +153,15 @@ The PDF styling is controlled by `docs/doc/styles/freebsd-pdf-theme.yml`. It inc
 
 ## Doxygen Documentation
 
-The C++ API documentation is generated separately using Doxygen with the awesome-css theme.
+The C++ API documentation is generated separately using Doxygen with the awesome-css theme. The Doxygen target is only added when the C++ source directory `docs/src` exists; if your repo does not contain C++ sources, the target will not be available.
 
 ### Build Doxygen Documentation
 
-Doxygen documentation is built by default along with the HTML documentation. To build only Doxygen docs:
+Doxygen documentation is built by default along with the HTML documentation when `docs/src` exists. To build only Doxygen docs:
 
 ```bash
 cd build
-cmake .. /docs
+cmake ../docs
 make doxygen_docs
 ```
 
@@ -201,7 +203,7 @@ By default, the "Manage Microsoft Azure AD Users" chapter is **enabled**.
 
 ```bash
 cd build
-cmake .. /docs -DENABLE_AZURE=OFF
+cmake ../docs -DENABLE_AZURE=OFF
 make doc
 ```
 
@@ -209,9 +211,26 @@ make doc
 
 ```bash
 cd build
-cmake .. /docs -DENABLE_AZURE=ON
+cmake ../docs -DENABLE_AZURE=ON
 make doc
 ```
+
+### Regenerate MUI Screenshots
+
+Screenshots for the Management User Interface (MUI) can be captured automatically. From the project root:
+
+```bash
+cd docs/scripts/mui-screenshots
+npm install
+```
+
+Set environment variables for MUI login: `MUI_BASE_URL`, `MUI_USERNAME`, `MUI_PASSWORD` (see `docs/scripts/mui-screenshots/README.md`). Then run:
+
+```bash
+npm run capture
+```
+
+Screenshots are saved to `docs/doc/images/mui/`. The script uses Playwright and Chromium (installed on first `npm install`).
 
 ## Troubleshooting
 
@@ -243,6 +262,10 @@ sudo apt-get install doxygen
 # Linux (Fedora/RHEL)
 sudo dnf install doxygen
 ```
+
+### Issue: PDF build fails with "cannot load such file -- bigdecimal"
+
+**Solution:** Asciidoctor-PDF requires the `bigdecimal` gem. Install it with `gem install bigdecimal` (use the same Ruby that runs `asciidoctor-pdf`, e.g. `/opt/homebrew/opt/ruby/bin/gem install bigdecimal`). If that fails with "The compiler failed to generate an executable file" or "stdio.h file not found", install or reinstall the Xcode Command Line Tools: `xcode-select --install`. Then run the `gem install` again **in your own Terminal** (not inside an IDE), so the compiler and SDK are found. After that, run the PDF build from the project `build/` directory.
 
 ### Issue: PDF generation fails with font warnings
 

@@ -4,6 +4,7 @@ string(TIMESTAMP LP_CURRENT_TIME_UTC "%Y-%m-%d %H:%M:%S" UTC)
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+# Optional: include(cpp-httplib) and CppHttpLib() when adding C++ tooling that needs httplib.
 
 # =========================================================
 # Add Project specific variables here
@@ -14,6 +15,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 # Customer Company Name
 # Customer Domain
 
+# Fallback when no git tag; GitVersion overwrites from latest tag when available.
 set(LP_PROJECT_VERSION "1.0.0")
 set(LP_PROJECT_AUTHOR "Dirk Leese")
 set(LP_CUSTOMER_COMPANY_NAME "SilkwayWest Airlines")
@@ -29,5 +31,8 @@ option(ENABLE_AZURE "Enable 'Manage Microsoft Azure AD Users' chapter in documen
 include(GitVersion)
 add_subdirectory(doc)
 
-include(Doxygen)
-Doxygen(src doxygen)
+# Doxygen target is only added when C++ source dir docs/src exists (see README).
+if(EXISTS "${CMAKE_SOURCE_DIR}/src")
+  include(Doxygen)
+  Doxygen(src doxygen)
+endif()

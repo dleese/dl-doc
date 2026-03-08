@@ -83,10 +83,12 @@ if(DOC_FORMAT STREQUAL "html")
   add_dependencies(doc copy_doc_images)
   
 elseif(DOC_FORMAT STREQUAL "pdf")
-  # PDF generation - use absolute path for background image
-  # List all included .adoc files as dependencies
-  set(PDF_DEPENDENCIES ${CMAKE_CURRENT_BINARY_DIR}/doc_title.adoc ${PDF_THEME_OUT})
-  list(APPEND PDF_DEPENDENCIES ${CMAKE_CURRENT_BINARY_DIR}/contacts.adoc ${CMAKE_CURRENT_BINARY_DIR}/briefingprocess.adoc ${CMAKE_CURRENT_BINARY_DIR}/.images_copied)
+  # PDF generation - use same dependencies as HTML so any chapter change triggers rebuild
+  set(PDF_DEPENDENCIES ${CMAKE_CURRENT_BINARY_DIR}/doc_title.adoc ${CMAKE_CURRENT_BINARY_DIR}/infrastructure.adoc ${PDF_THEME_OUT} ${CMAKE_CURRENT_BINARY_DIR}/.images_copied)
+  foreach(ADOC_FILE ${ASCIIDOC_FILES})
+    get_filename_component(ADOC_FILENAME ${ADOC_FILE} NAME)
+    list(APPEND PDF_DEPENDENCIES ${CMAKE_CURRENT_BINARY_DIR}/${ADOC_FILENAME})
+  endforeach()
   
   # Configure font directory for Inter font
   set(FONTS_DIR "$ENV{HOME}/Library/Fonts")

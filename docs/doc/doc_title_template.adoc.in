@@ -22,20 +22,6 @@
 [abstract]
 This document provides operational and technical documentation for the Logipad EFB/EFF system. It covers infrastructure, identity management, briefing, the Library module, and quick reference procedures.
 
-// Framed table: 3 columns (left, center, right); right cell contains a nested 2x2 table
-[frame=all,cols="1,1,1"]
-|===
-| Left
-| Center
-a|
-[cols="1,1",frame=all]
-|===
-| Nested A
-| Nested B
-| Nested C
-| Nested D
-|===
-|===
 
 include::contacts.adoc[leveloffset=+1]
 
