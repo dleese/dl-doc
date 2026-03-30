@@ -1,0 +1,5 @@
+<!-- Build id banner (inserted at top of body via Asciidoctor docinfo; value from CMake @LP_DOC_BUILD_ID@) -->
+<div id="doc-build-banner" class="doc-build-banner" role="note">
+  <span class="doc-build-banner__label">Build</span>
+  <span class="doc-build-banner__id">@LP_DOC_BUILD_ID@</span>
+</div>

@@ -1,0 +1,14 @@
+= Logipad Administration Guide
+include::common/guide_attributes.adoc[]
+
+[abstract]
+This guide is for administrators who deploy, configure, and operate Logipad. It covers support contacts, infrastructure endpoints, identity management with Keycloak, and the Library module (MUI).
+
+
+include::chapters/admin/contacts.adoc[leveloffset=+1]
+
+include::chapters/admin/infrastructure.adoc[leveloffset=+1]
+
+include::chapters/admin/keycloak.adoc[leveloffset=+1]
+
+include::chapters/admin/library.adoc[leveloffset=+1]

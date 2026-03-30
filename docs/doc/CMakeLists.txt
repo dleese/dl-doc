@@ -2,14 +2,18 @@
 #
 
 
-# Get the current project version from the latest Git tag and set it in the build environment
-# Description:The function get_version_from_git() defines and sets variables such as PROJECT_VERSION (the current project version string obtained from the latest Git tag)
-# and potentially PROJECT_VERSION_MAJOR, PROJECT_VERSION_MINOR, and PROJECT_VERSION_PATCH if the tag follows semantic versioning (e.g., v1.2.3).
-# These variables are made available in the CMake environment for use in configuration files and documentation.
-get_version_from_git()
+# Version variables come from parent docs/CMakeLists.txt (get_version_from_git).
 
-configure_file(doc_title_template.adoc.in ${PROJECT_BINARY_DIR}/doc/doc_title.adoc @ONLY)
-configure_file(infrastructure.adoc.in ${PROJECT_BINARY_DIR}/doc/infrastructure.adoc @ONLY)
+# Shared book attributes (author, revision, TOC, images) — single place to change layout for both guides
+file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/common)
+configure_file(common/guide_attributes.adoc.in ${CMAKE_CURRENT_BINARY_DIR}/common/guide_attributes.adoc @ONLY)
+
+# HTML: banner with :docbuildid: (Asciidoctor docinfo=shared)
+configure_file(docinfo-header.html.in ${CMAKE_CURRENT_BINARY_DIR}/docinfo-header.html @ONLY)
+
+configure_file(admin_guide_template.adoc.in ${PROJECT_BINARY_DIR}/doc/admin_guide.adoc @ONLY)
+configure_file(user_guide_template.adoc.in ${PROJECT_BINARY_DIR}/doc/user_guide.adoc @ONLY)
+configure_file(chapters/admin/infrastructure.adoc.in ${PROJECT_BINARY_DIR}/doc/chapters/admin/infrastructure.adoc @ONLY)
 
 file(COPY styles/ DESTINATION ${PROJECT_BINARY_DIR}/doc/styles/)
 file(COPY images/ DESTINATION ${PROJECT_BINARY_DIR}/doc/images/)
@@ -23,12 +27,25 @@ add_custom_command(
 )
 add_custom_target(copy_doc_images ALL DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/.images_copied)
 
-file(GLOB ASCIIDOC_FILES "${CMAKE_CURRENT_SOURCE_DIR}/*.adoc")
-# Copy .adoc files to build directory
-foreach(ADOC_FILE ${ASCIIDOC_FILES})
-  get_filename_component(ADOC_FILENAME ${ADOC_FILE} NAME)
-  configure_file(${ADOC_FILE} ${CMAKE_CURRENT_BINARY_DIR}/${ADOC_FILENAME} COPYONLY)
+# Chapter .adoc files (exclude .in; infrastructure is generated above)
+file(GLOB_RECURSE CHAPTER_ADOC_FILES CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/chapters/**/*.adoc")
+foreach(CHAPTER_FILE ${CHAPTER_ADOC_FILES})
+  file(RELATIVE_PATH CHAPTER_REL ${CMAKE_CURRENT_SOURCE_DIR} ${CHAPTER_FILE})
+  configure_file(${CHAPTER_FILE} ${CMAKE_CURRENT_BINARY_DIR}/${CHAPTER_REL} COPYONLY)
 endforeach()
+
+set(BIN_DIR ${CMAKE_CURRENT_BINARY_DIR}/bin)
+file(MAKE_DIRECTORY ${BIN_DIR})
+
+# Versioned output names (SemVer from Git; matches :revnumber:)
+set(LP_DOC_ARTIFACT_SUFFIX "${LP_PROJECT_VERSION}")
+if(LP_DOC_ARTIFACT_SUFFIX STREQUAL "")
+  set(LP_DOC_ARTIFACT_SUFFIX "local")
+endif()
+set(ADMIN_GUIDE_HTML "${BIN_DIR}/admin_guide-${LP_DOC_ARTIFACT_SUFFIX}.html")
+set(USER_GUIDE_HTML "${BIN_DIR}/user_guide-${LP_DOC_ARTIFACT_SUFFIX}.html")
+set(ADMIN_GUIDE_PDF "${BIN_DIR}/admin_guide-${LP_DOC_ARTIFACT_SUFFIX}.pdf")
+set(USER_GUIDE_PDF "${BIN_DIR}/user_guide-${LP_DOC_ARTIFACT_SUFFIX}.pdf")
 
 # Configure PDF theme with absolute path to background image and Inter font paths
 set(PDF_THEME_IN ${CMAKE_CURRENT_SOURCE_DIR}/styles/freebsd-pdf-theme.yml)
@@ -45,10 +62,6 @@ set(TITLE_PAGE_BG_IMAGE "${PROJECT_BINARY_DIR}/doc/images/dd/dd_title_page.svg")
 
 configure_file(${PDF_THEME_IN} ${PDF_THEME_OUT} @ONLY)
 
-# Set output directory to bin subdirectory
-set(BIN_DIR ${CMAKE_CURRENT_BINARY_DIR}/bin)
-file(MAKE_DIRECTORY ${BIN_DIR})
-
 # Common asciidoctor attributes
 set(ASCIIDOCTOR_ATTRS
   -a icons=font 
@@ -60,52 +73,88 @@ set(ASCIIDOCTOR_ATTRS
   -a sectnums
   -a sectnumlevels=4
   -a imagesdir=images/
+  -a docinfo=shared
 )
 if(ENABLE_AZURE)
   list(APPEND ASCIIDOCTOR_ATTRS -a enable-azure)
 endif()
 
+# All sources that affect either guide build
+set(GUIDE_MASTER_SOURCES
+  ${CMAKE_CURRENT_BINARY_DIR}/admin_guide.adoc
+  ${CMAKE_CURRENT_BINARY_DIR}/user_guide.adoc
+  ${CMAKE_CURRENT_BINARY_DIR}/common/guide_attributes.adoc
+  ${CMAKE_CURRENT_BINARY_DIR}/chapters/admin/infrastructure.adoc
+)
+set(GUIDE_CHAPTER_SOURCES ${CHAPTER_ADOC_FILES})
+list(APPEND GUIDE_CHAPTER_SOURCES
+  ${CMAKE_CURRENT_SOURCE_DIR}/chapters/admin/infrastructure.adoc.in
+  ${CMAKE_CURRENT_SOURCE_DIR}/common/guide_attributes.adoc.in
+  ${CMAKE_CURRENT_SOURCE_DIR}/docinfo-header.html.in
+)
+
 if(DOC_FORMAT STREQUAL "html")
-  # HTML output is in BIN_DIR (doc/bin/); img src="images/..." is relative to that, so copy images there
   add_custom_command(
-    OUTPUT ${BIN_DIR}/doc_title.html
+    OUTPUT ${ADMIN_GUIDE_HTML}
     COMMAND ${CMAKE_COMMAND} -E make_directory ${BIN_DIR}/images
     COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_CURRENT_BINARY_DIR}/images ${BIN_DIR}/images
-    COMMAND asciidoctor ${CMAKE_CURRENT_BINARY_DIR}/doc_title.adoc 
+    COMMAND asciidoctor ${CMAKE_CURRENT_BINARY_DIR}/admin_guide.adoc 
       -a stylesheet=styles/freebsd-theme.css
       ${ASCIIDOCTOR_ATTRS}
-      -o ${BIN_DIR}/doc_title.html
-    DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/doc_title.adoc ${ASCIIDOC_FILES} ${CMAKE_CURRENT_BINARY_DIR}/.images_copied
+      -o ${ADMIN_GUIDE_HTML}
+    DEPENDS ${GUIDE_MASTER_SOURCES} ${GUIDE_CHAPTER_SOURCES} ${CMAKE_CURRENT_BINARY_DIR}/.images_copied
+      ${CMAKE_CURRENT_BINARY_DIR}/docinfo-header.html
     WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
-    COMMENT "Generating HTML documentation with Asciidoctor"
+    COMMENT "Generating Administration Guide (HTML)"
   )
-  add_custom_target(doc ALL DEPENDS ${BIN_DIR}/doc_title.html)
+  add_custom_command(
+    OUTPUT ${USER_GUIDE_HTML}
+    COMMAND ${CMAKE_COMMAND} -E make_directory ${BIN_DIR}/images
+    COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_CURRENT_BINARY_DIR}/images ${BIN_DIR}/images
+    COMMAND asciidoctor ${CMAKE_CURRENT_BINARY_DIR}/user_guide.adoc 
+      -a stylesheet=styles/freebsd-theme.css
+      ${ASCIIDOCTOR_ATTRS}
+      -o ${USER_GUIDE_HTML}
+    DEPENDS ${GUIDE_MASTER_SOURCES} ${GUIDE_CHAPTER_SOURCES} ${CMAKE_CURRENT_BINARY_DIR}/.images_copied
+      ${CMAKE_CURRENT_BINARY_DIR}/docinfo-header.html
+    WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+    COMMENT "Generating User Guide (HTML)"
+  )
+  add_custom_target(doc ALL DEPENDS ${ADMIN_GUIDE_HTML} ${USER_GUIDE_HTML})
   add_dependencies(doc copy_doc_images)
   
 elseif(DOC_FORMAT STREQUAL "pdf")
-  # PDF generation - use same dependencies as HTML so any chapter change triggers rebuild
-  set(PDF_DEPENDENCIES ${CMAKE_CURRENT_BINARY_DIR}/doc_title.adoc ${CMAKE_CURRENT_BINARY_DIR}/infrastructure.adoc ${PDF_THEME_OUT} ${CMAKE_CURRENT_BINARY_DIR}/.images_copied)
-  foreach(ADOC_FILE ${ASCIIDOC_FILES})
-    get_filename_component(ADOC_FILENAME ${ADOC_FILE} NAME)
-    list(APPEND PDF_DEPENDENCIES ${CMAKE_CURRENT_BINARY_DIR}/${ADOC_FILENAME})
-  endforeach()
-  
-  # Configure font directory for Inter font
   set(FONTS_DIR "$ENV{HOME}/Library/Fonts")
-  
+
   add_custom_command(
-    OUTPUT ${BIN_DIR}/doc_title.pdf
-    COMMAND asciidoctor-pdf ${CMAKE_CURRENT_BINARY_DIR}/doc_title.adoc 
+    OUTPUT ${ADMIN_GUIDE_PDF}
+    COMMAND asciidoctor-pdf ${CMAKE_CURRENT_BINARY_DIR}/admin_guide.adoc 
       -a pdf-theme=styles/freebsd-pdf-theme.yml
       -a pdf-fontsdir=${FONTS_DIR}
-      # -a title-page-background-image=${CMAKE_CURRENT_BINARY_DIR}/images/dd/dd_title_page.svg
       ${ASCIIDOCTOR_ATTRS}
-      -o ${BIN_DIR}/doc_title.pdf
-    DEPENDS ${PDF_DEPENDENCIES}
+      -o ${ADMIN_GUIDE_PDF}
+    DEPENDS ${GUIDE_MASTER_SOURCES} ${PDF_THEME_OUT} ${CMAKE_CURRENT_BINARY_DIR}/.images_copied
+      ${CMAKE_CURRENT_BINARY_DIR}/chapters/admin/contacts.adoc
+      ${CMAKE_CURRENT_BINARY_DIR}/chapters/admin/keycloak.adoc
+      ${CMAKE_CURRENT_BINARY_DIR}/chapters/admin/infrastructure.adoc
+      ${CMAKE_CURRENT_BINARY_DIR}/chapters/admin/library.adoc
     WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
-    COMMENT "Generating PDF documentation with Asciidoctor-PDF"
+    COMMENT "Generating Administration Guide (PDF)"
   )
-  add_custom_target(doc ALL DEPENDS ${BIN_DIR}/doc_title.pdf)
+  add_custom_command(
+    OUTPUT ${USER_GUIDE_PDF}
+    COMMAND asciidoctor-pdf ${CMAKE_CURRENT_BINARY_DIR}/user_guide.adoc 
+      -a pdf-theme=styles/freebsd-pdf-theme.yml
+      -a pdf-fontsdir=${FONTS_DIR}
+      ${ASCIIDOCTOR_ATTRS}
+      -o ${USER_GUIDE_PDF}
+    DEPENDS ${GUIDE_MASTER_SOURCES} ${PDF_THEME_OUT} ${CMAKE_CURRENT_BINARY_DIR}/.images_copied
+      ${CMAKE_CURRENT_BINARY_DIR}/chapters/user/briefingprocess.adoc
+      ${CMAKE_CURRENT_BINARY_DIR}/chapters/user/quick_reference_guide.adoc
+    WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+    COMMENT "Generating User Guide (PDF)"
+  )
+  add_custom_target(doc ALL DEPENDS ${ADMIN_GUIDE_PDF} ${USER_GUIDE_PDF})
   add_dependencies(doc copy_doc_images)
   
 else()

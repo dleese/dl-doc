@@ -8,7 +8,7 @@ Logipad applies default briefing settings to the application; these may vary by 
 
 [.center-caption]
 .iPad briefing configuration settings
-image::./mui/ipad_briefing_settings.png[Briefing Settings,400,400,float="center",align="center"]
+image::./mui/ipad_briefing_settings.png[Briefing Settings,50%,float="center",align="center"]
 
 . **Recent filter**: Can be set to:
 * none

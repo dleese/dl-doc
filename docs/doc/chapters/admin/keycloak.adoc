@@ -4,7 +4,7 @@ Keycloak is the identity and access management (IAM) solution used by Logipad. I
 
 For each customer deployment, the user support@logipad.aero is configured in Keycloak with administrator privileges to manage users and permissions. This ensures consistent, centralized identity management across all customer realms.
 
-Login URL: xref:infrastructure.adoc#keycloak-url[keycloak-interface-url]
+Login URL: xref:chapters/admin/infrastructure.adoc#keycloak-url[keycloak-interface-url]
 
 == Keycloak administration
 

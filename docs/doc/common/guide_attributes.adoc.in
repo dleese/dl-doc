@@ -1,0 +1,19 @@
+:Author: @LP_PROJECT_AUTHOR@
+:email: <dirk.leese@dextradata.com>
+:revnumber: @LP_PROJECT_VERSION@
+:revremark: @LP_PROJECT_REVREMARK@
+:docbuildid: @LP_DOC_BUILD_ID@
+
+:doctype: book
+:title-page: true
+
+:toc:
+:toc-title: Table of Contents
+:toclevels: 3
+:sectnums:
+:sectnumlevels: 4
+:imagesdir: images
+
+:title-page-background-image: dd/dd_title_page.svg[]
+
+// :data-uri: uncomment this line to embed picture in single html file

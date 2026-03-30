@@ -1,0 +1,10 @@
+= Logipad User Guide
+include::common/guide_attributes.adoc[]
+
+[abstract]
+This guide is for end users of Logipad: briefing and day-to-day use (login, logout, quick reference).
+
+
+include::chapters/user/briefingprocess.adoc[leveloffset=+1]
+
+include::chapters/user/quick_reference_guide.adoc[leveloffset=+1]

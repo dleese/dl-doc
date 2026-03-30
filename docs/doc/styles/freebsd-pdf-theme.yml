@@ -52,6 +52,19 @@ header:
     center:
       content: '{document-title}' # Title in center of left-hand pages
 
+# Footer: Git describe / build id (same as AsciiDoc :docbuildid:)
+footer:
+  height: 0.45in
+  font_size: 8
+  font_color: '#666666'
+  line_height: 1.2
+  recto:
+    center:
+      content: '{docbuildid}'
+  verso:
+    center:
+      content: '{docbuildid}'
+
 heading:
   h1:
     font_color: '#003366'
@@ -105,6 +118,7 @@ image:
   caption:
     align: center
     text-align: center
+    width: 50%
 
 # Tables styling (framed tables: 3-column layout with optional nested tables in cells)
 table:

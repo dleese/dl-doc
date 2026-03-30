@@ -50,6 +50,15 @@ Download the Inter font family from [Google Fonts](https://fonts.google.com/spec
 
 ## Project Structure
 
+The documentation is split into **two guides**, each built as HTML and PDF:
+
+| Guide | Role | Chapter files |
+| ----- | ---- | --------------- |
+| **Logipad Administration Guide** | Deploy, configure, operate (infrastructure, Keycloak, Library/MUI) | `docs/doc/chapters/admin/` |
+| **Logipad User Guide** | End users (briefing, login/logout, quick reference) | `docs/doc/chapters/user/` |
+
+Master documents (per-guide title, abstract, chapter includes) are `admin_guide_template.adoc.in` and `user_guide_template.adoc.in`. Shared book settings (author, revision, TOC, images) live in `common/guide_attributes.adoc.in` so both guides stay in sync. Customer-specific URLs are substituted in `chapters/admin/infrastructure.adoc` via CMake from `infrastructure.adoc.in`.
+
 ```
 dl-doc/
 ├── docs/                          # Documentation source
@@ -59,13 +68,19 @@ dl-doc/
 │   │   ├── GitVersion.cmake      # Git version extraction
 │   │   └── ...
 │   └── doc/                       # Documentation content
-│       ├── *.adoc                # AsciiDoc source files
+│       ├── admin_guide_template.adoc.in
+│       ├── user_guide_template.adoc.in
+│       ├── common/
+│       │   └── guide_attributes.adoc.in   # shared header for both guides
+│       ├── chapters/
+│       │   ├── admin/            # Administration Guide chapters
+│       │   └── user/             # User Guide chapters
 │       ├── images/               # Images and assets
 │       └── styles/               # CSS and theme files
 └── build/                        # (Generated) Build directory
     └── bin/                      # (Generated) Output files
-        ├── doc_title.html        # HTML documentation
-        └── doc_title.pdf         # PDF documentation
+        ├── admin_guide-<version>.html / .pdf
+        └── user_guide-<version>.html / .pdf
 ```
 
 ## Building the Documentation
@@ -92,7 +107,19 @@ cmake ../docs
 make doc
 ```
 
-This will generate the documentation in the default format and the output will be available in `build/doc/bin/`.
+This will generate **both** guides in the default format. Output files are in `build/doc/bin/`.
+
+### Cleaning the build directory
+
+Use one of these when you want a full reset (for example after large CMake or layout changes). You must run `cmake ../docs` again afterward.
+
+| Method | Command |
+| ------ | ------- |
+| **CMake target** (from inside `build/`) | `cmake --build . --target clean-build` or `make clean-build` |
+| **Shell script** (from repo root; optional path) | `./scripts/clean-build.sh` or `./scripts/clean-build.sh /path/to/your/build` |
+| **Manual** | `rm -rf build` (from repo root) then recreate `build/` and reconfigure |
+
+`make clean` only removes build outputs that CMake tracks; it does not delete the whole `build/` tree. `clean-build` removes the entire configured build directory.
 
 ## Building HTML Documentation
 
@@ -104,14 +131,20 @@ cmake ../docs
 make doc
 ```
 
-The HTML documentation will be generated at: `build/doc/bin/doc_title.html`
+The HTML documentation will be generated at (the `*-<version>*` suffix is SemVer from Git, e.g. `1.3.0`):
+
+- `build/doc/bin/admin_guide-<version>.html` — Administration Guide
+- `build/doc/bin/user_guide-<version>.html` — User Guide
+
+Re-run `cmake ../docs` after creating or moving to a new **`v*`** tag so the filename and embedded revision match.
 
 ### Open in Browser
 
-After building, open the HTML file in your browser:
+After building, open the HTML files in your browser (replace `<version>` with the folder name CMake printed, e.g. `1.3.0`):
 
 ```bash
-open build/doc/bin/doc_title.html
+open build/doc/bin/admin_guide-1.3.0.html
+open build/doc/bin/user_guide-1.3.0.html
 ```
 
 ### Features
@@ -134,12 +167,16 @@ cmake ../docs -DDOC_FORMAT=pdf
 make doc
 ```
 
-The PDF documentation will be generated at: `build/doc/bin/doc_title.pdf`
+The PDF documentation will be generated at:
+
+- `build/doc/bin/admin_guide-<version>.pdf`
+- `build/doc/bin/user_guide-<version>.pdf`
 
 ### Open the PDF
 
 ```bash
-open build/doc/bin/doc_title.pdf
+open build/doc/bin/admin_guide-1.3.0.pdf
+open build/doc/bin/user_guide-1.3.0.pdf
 ```
 
 ### PDF Customization
@@ -181,15 +218,17 @@ After a successful build, documentation files are located in:
 
 ### HTML Output
 ```
-build/doc/bin/doc_title.html
+build/doc/bin/admin_guide-<version>.html
+build/doc/bin/user_guide-<version>.html
 build/doc/bin/images/              # Associated images
 build/doc/bin/styles/              # CSS stylesheets
-build/doxygen/                      # C++ API documentation
+build/doxygen/                      # C++ API documentation (if docs/src exists)
 ```
 
 ### PDF Output
 ```
-build/doc/bin/doc_title.pdf
+build/doc/bin/admin_guide-<version>.pdf
+build/doc/bin/user_guide-<version>.pdf
 build/doc/bin/images/              # Referenced images
 ```
 
@@ -197,7 +236,7 @@ build/doc/bin/images/              # Referenced images
 
 ### Enable/Disable Azure Documentation
 
-By default, the "Manage Microsoft Azure AD Users" chapter is **enabled**.
+By default, the "Manage Microsoft Azure AD Users" section in the **Administration Guide** (Keycloak chapter) is **enabled**.
 
 #### Disable Azure Chapter
 
@@ -288,8 +327,9 @@ brew install cmake
 
 ### Issue: Clean rebuild needed
 
-**Solution:** Remove the build directory and rebuild from scratch:
+**Solution:** Remove the build directory and configure again. Prefer the [Cleaning the build directory](#cleaning-the-build-directory) options (`clean-build` target or `./scripts/clean-build.sh`), or manually:
 ```bash
+cd /path/to/dl-doc
 rm -rf build
 mkdir build
 cd build
@@ -308,7 +348,7 @@ make doc
 
 ### Editing Documentation
 
-1. Edit AsciiDoc files in `docs/doc/*.adoc`
+1. Edit chapter files under `docs/doc/chapters/admin/` or `docs/doc/chapters/user/`, or adjust masters `docs/doc/admin_guide_template.adoc.in` / `user_guide_template.adoc.in`
 2. Add/update images in `docs/doc/images/`
 3. Rebuild documentation:
    ```bash
@@ -328,7 +368,19 @@ make doc
 
 ### Version Management
 
-The project version is automatically extracted from Git tags. See [Git Workflow](#git-workflow) for how to create and push release tags.
+Versioning follows **SemVer** on **annotated `v*`** tags (e.g. `v1.3.0`). The build is the single source of truth: **`cmake ../docs`** runs [`docs/cmake/GitVersion.cmake`](docs/cmake/GitVersion.cmake) from the **repository root** (`git rev-parse --show-toplevel`).
+
+| Item | Behaviour |
+| ---- | ----------- |
+| `:revnumber:` | `MAJOR.MINOR.PATCH` from the nearest matching tag on the current branch (`git describe --tags --match "v*" --long`). |
+| `:revremark:` | **Release** wording when you are exactly on a tag (or `v*-0-g*`); **development** wording when there are commits after the tag; appends a note if the **working tree is dirty** (`git diff-index`). |
+| `:docbuildid:` | Full `git describe` output plus optional dirty note (for traceability). |
+| **Where it appears** | **HTML:** a build banner at the top of the page (`docinfo-header.html` + `docinfo=shared`). **PDF:** centered in the **footer** on each page (`freebsd-pdf-theme.yml`). |
+| **Output files** | `admin_guide-<version>.html` / `.pdf` and `user_guide-<version>.html` / `.pdf` in `build/doc/bin/` so artifacts match the embedded revision. |
+
+If Git is missing or `describe` fails, CMake fallbacks in [`docs/CMakeLists.txt`](docs/CMakeLists.txt) apply (`LP_PROJECT_VERSION`, `LP_PROJECT_REVREMARK`, `LP_DOC_BUILD_ID`).
+
+**Workflow:** tag `main` with `v1.3.0`, push the tag, then **`cmake ../docs`** (or a clean configure) and **`make doc`**. See [Git Workflow](#git-workflow) for tag commands.
 
 ## Git Workflow
 

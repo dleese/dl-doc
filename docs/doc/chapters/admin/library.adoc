@@ -39,7 +39,7 @@ Documents are organized in a folder structure. Folders can be associated with a 
 
 [.center-caption]
 .Library property (MUI)
-image::mui/mui_library_property.png[Library property settings,800,600,float="center",align="center"]
+image::mui/mui_library_property.png[Library property settings,50%,float="center",align="center"]
 
 === Create a new document
 
@@ -47,13 +47,13 @@ To create a new document, use the *Create new Document* control in the Library m
 
 [.center-caption]
 .Create a new document (MUI)
-image::mui/mui_library_new_document.png[Create a new document,30%,float="center",align="center"]
+image::mui/mui_library_new_document.png[Create a new document,50%,float="center",align="center"]
 
 === Create new Document
 
 [.center-caption]
 .Create new document (MUI)
-image::mui/mui_create_new_document.png[Create new document,800,600,float="center",align="center"]
+image::mui/mui_create_new_document.png[Create new document,50%,float="center",align="center"]
 
 === Upload multiple documents
 
@@ -61,7 +61,7 @@ To upload multiple documents, use the *Upload multiple documents* control in the
 
 [.center-caption]
 .Upload multiple documents (MUI)
-image::mui/mui_upload_multiple_documents.png[Upload multiple documents,800,600,float="center",align="center"]
+image::mui/mui_upload_multiple_documents.png[Upload multiple documents,50%,float="center",align="center"]
 
 === Document Types
 
@@ -69,7 +69,7 @@ To create a new document type, use the *Document Types* control in the Library m
 
 [.center-caption]
 .Document Types (MUI)
-image::mui/mui_document_types.png[Document Types,800,600,float="center",align="center"]
+image::mui/mui_document_types.png[Document Types,50%,float="center",align="center"]
 
 === Document Template
 
@@ -77,4 +77,4 @@ To create a new document template, use the *Document Template* control in the Li
 
 [.center-caption]
 .Document Template (MUI)
-image::mui/mui_document_template.png[Document Template,800,600,float="center",align="center"]
+image::mui/mui_document_template.png[Document Template,50%,float="center",align="center"]
