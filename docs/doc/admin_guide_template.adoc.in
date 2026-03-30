@@ -11,4 +11,6 @@ include::chapters/admin/infrastructure.adoc[leveloffset=+1]
 
 include::chapters/admin/keycloak.adoc[leveloffset=+1]
 
+include::chapters/admin/users.adoc[leveloffset=+1]
+
 include::chapters/admin/library.adoc[leveloffset=+1]

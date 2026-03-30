@@ -1,0 +1,168 @@
+= User Management
+
+The *General > Users* section of the Logipad Management User Interface (MUI) is the central point for managing EFB user accounts. Administrators can create individual users, perform bulk import and export operations, and define user types that map to crew roles and access levels within the operator's organisation.
+
+[.center-caption]
+.Users overview — action menu
+image::./mui/mui_create_user_overview.png[User management overview,75%,float="center",align="center"]
+
+The primary action button *Create new User* (①) opens the new-user form directly.
+Clicking the dropdown arrow (▼) next to it reveals three additional bulk operations:
+
+* ① *Import Users* — bulk-create users from a CSV file
+* ② *Export Users* — download the current user list as a CSV file
+* ③ *User Types* — manage the role classifications that can be assigned to users
+
+[WARNING]
+====
+*EASA AMC 20-25 compliance — administrator authorisation:*
+Only personnel designated as EFB Administrator in the operator's EFB Programme documentation may create, modify, import, or delete user accounts.
+All user management actions must be traceable to a named administrator account.
+Generic or shared administrator logins are not permitted.
+====
+
+== Create a new user
+
+. Navigate to *General > Users*.
+. Click *Create new User* (the main button, not the dropdown arrow).
+. Complete the required fields in the user creation form: login name, e-mail address, assigned user type, and any operator-specific attributes.
+. Save the record.
+
+[.center-caption]
+.Create new User — action button and dropdown
+image::./mui/mu_user_create.png[Create new user button,40%,float="center",align="center"]
+
+[WARNING]
+====
+*EASA AMC 20-25 §5.2 — individual user accounts:*
+Each crew member, dispatcher, or administrator must have a unique, individually assigned account.
+Shared accounts are prohibited.
+The login name and e-mail address must allow unambiguous identification of the individual for audit and incident-investigation purposes in accordance with EASA AMC 20-25 and ORO.GEN.160 record-keeping requirements.
+====
+
+== Import users
+
+Bulk import allows an administrator to create multiple user accounts in a single operation from a prepared CSV file.
+
+. Click the dropdown arrow (▼) next to *Create new User*.
+. Select *Import Users* (①).
+  The Import Users dialog opens.
++
+[.center-caption]
+.Import Users dialog
+image::./mui/mui_import_users.png[Import Users dialog,50%,float="center",align="center"]
++
+. Verify the CSV format settings:
+  * *Separator* — field delimiter character used in the source file (default: `;`).
+  * *Escaping* — character used to quote fields that contain the separator (default: `"`).
+  Adjust these values to match the format of the file being imported.
+. Provide the CSV file using one of these methods:
+  * Drag the file from your desktop and drop it onto the *Drag and drop file here* zone.
+  * Click *Browse files* to open a system file picker and select the file.
+. Once a file is loaded, click *Import* to create the accounts.
+  Click *Cancel* to abort without making any changes.
+
+[NOTE]
+====
+The import file must contain at minimum the mandatory fields (login name, e-mail, user type).
+Verify the column order and encoding (UTF-8 recommended) before importing.
+A failed import will not create partial records; the entire operation is rolled back on error.
+====
+
+[WARNING]
+====
+*EASA AMC 20-25 and GDPR (EU) 2016/679 compliance — bulk user data:*
+
+* The import CSV file contains personal data (names, e-mail addresses).
+  Handle, store, and transfer this file in accordance with your organisation's data protection policy and GDPR obligations.
+  Delete the source file securely after a successful import.
+* Before importing, verify that every account in the file has been formally requested and approved through the operator's access-request process.
+  Importing accounts without authorisation records constitutes a violation of ORO.GEN.120 compliance-monitoring requirements.
+* Do not import accounts with a user type that grants operational access unless the corresponding crew member holds a valid qualification on the aircraft type or operation covered by that access level.
+====
+
+== Export users
+
+The export function produces a CSV snapshot of all current user accounts.
+
+. Click the dropdown arrow (▼) next to *Create new User*.
+. Select *Export Users* (②).
+  The Export Users dialog opens.
++
+[.center-caption]
+.Export Users dialog
+image::./mui/mui_export_users.png[Export Users dialog,60%,float="center",align="center"]
++
+. Configure the output format:
+  * *Separator* — field delimiter for the exported file (default: `;`).
+  * *Escaping* — quoting character for fields containing the separator (default: `"`).
+. Click *Export* to download the CSV file, or *Cancel* to close without exporting.
+
+[WARNING]
+====
+*EASA AMC 20-25 §7 and GDPR (EU) 2016/679 compliance — data export security:*
+
+* The exported file contains personal data of crew members and must be treated as sensitive.
+  Transmit only over encrypted channels (e.g. TLS); do not send via unencrypted e-mail or store on unapproved media.
+* Access to the export function must be restricted to authorised EFB Administrators.
+  Exports performed for audit or regulatory inspection purposes must be logged with the date, administrator name, and stated purpose.
+* Retain exported files only for as long as required by the applicable data retention policy.
+  Securely delete files when no longer needed.
+====
+
+== Manage user types
+
+User types define the access profile applied to a user account.
+They must correspond to the crew roles and authorisation levels documented in the operator's Operations Manual and EFB Programme.
+
+. Click the dropdown arrow (▼) next to *Create new User*.
+. Select *User Types* (③).
+  The User Types management page opens at *General > Users > Create new User Type*.
++
+[.center-caption]
+.User Types management page
+image::./mui/mui_user_types.png[User Types page,60%,float="center",align="center"]
++
+The table lists all defined user types (e.g. *Demo*, *Logipad Support*, *Primary test user*).
+Each row provides:
++
+* A pencil icon (image:./mui/mui_edit_icon.png[edit,16]) to edit the user type name.
+* A bin icon (image:./mui/mui_delete_icon.png[delete,16]) to delete the user type.
++
+. Use the *Filter* field to search by name across large lists.
+  Click *Reset* to clear the filter and show all items.
+
+=== Create a new user type
+
+. On the User Types page, click *Create new User Type*.
+  The creation dialog opens.
++
+[.center-caption]
+.Create new User Type dialog
+image::./mui/mui_create_new_user_type.png[Create new User Type dialog,55%,float="center",align="center"]
++
+. Enter a *Name* for the new user type (required field, marked with *).
+  Use a descriptive name that reflects the operational role (e.g. *Captain*, *First Officer*, *Dispatcher*).
+. Click *Save* to create the type, or *Cancel* to discard.
+
+=== Delete a user type
+
+. On the User Types page, click the bin icon in the row of the user type to be removed.
+. Confirm the deletion when prompted.
+
+[NOTE]
+====
+A user type that is currently assigned to one or more user accounts cannot be deleted.
+Reassign or remove all affected accounts before attempting to delete the type.
+====
+
+[WARNING]
+====
+*EASA AMC 20-25 §5 compliance — role alignment and change control:*
+
+* User types must reflect the roles and privileges defined in the operator's approved EFB Programme.
+  Creating, renaming, or deleting a user type that alters operational access levels (e.g. briefing visibility, eForms authorisation) constitutes a change to the EFB configuration and must follow the operator's change management and, where applicable, airworthiness approval process.
+* The set of user types must be reviewed periodically (at minimum annually) and reconciled with current crew qualifications and operational authorisations.
+  Obsolete or unused user types must be removed to reduce the attack surface in accordance with AMC 20-25 §7 security requirements.
+* Any modification to user types must be recorded in the EFB Configuration Log, including the date of change, name of the administrator, and the operational justification.
+====

@@ -4,20 +4,99 @@ This guide provides a quick reference to the main features of Logipad.
 
 == Login and authentication
 
-After the Logipad application is started, users log in with their credentials.
+Each crew member must authenticate individually before using Logipad for operational purposes.
+The application starts in an unauthenticated state; no briefing data or documents are accessible until a successful login has been completed.
+
+=== Step 1 — Open the login dialog
 
 [.center-caption]
-.Logipad login screen
+.Logipad home screen — unauthenticated state
 image::./mui/mui_login.png[Logipad login screen,50%,float="center",align="center"]
 
+After launching the Logipad application:
+
+. Verify the status panel (upper-right area of the Home screen) shows *Not signed in* with *Last Success: n/a* and *Last Sync: n/a*.
+  This confirms no previous session is active.
+. Tap the *Login* button on the left side of the Home screen to open the authentication dialog.
+
+[NOTE]
+====
+The application version and build date are shown at the bottom of the screen (e.g. *Version: 10.1.7*, *Build Date: 2026-02-23*).
+Before logging in, confirm that the installed version matches the version approved for your operation.
+Refer to your operator's EFB configuration control documentation.
+====
+
+[WARNING]
+====
+*ARINC 768 compliance — identity and access control:*
+Do not proceed with login if the application version displayed does not match the approved baseline recorded in the EFB Configuration Log.
+Using an unapproved software version may constitute a deviation from your operator's EFB Programme.
+====
+
+=== Step 2 — Enter credentials
+
 [.center-caption]
-.Logipad login credentials
+.Logipad authentication dialog
 image::./mui/mui_login_credentials.png[Logipad login credentials,50%,float="center",align="center"]
+
+The authentication dialog is served by the identity provider at *keycloak-cloud.logipad.net*.
+
+. Verify that the dialog title shows *keycloak-cloud.logipad.net* before entering any credentials.
+. Enter your *Username or E-Mail* in the first field.
+. Enter your *Password* in the second field.
+  Use the eye icon on the right to toggle password visibility if required.
+. Tap *LOG IN* to submit.
+
+If you have forgotten your password, tap *Forgot Password?* to initiate a self-service reset via your registered e-mail address.
+
+[WARNING]
+====
+*ARINC 768 compliance — authentication security:*
+
+* Each crew member must log in with their *individual* credentials.
+  Sharing credentials between users is prohibited and invalidates the audit trail required for operational accountability.
+* Confirm the authentication endpoint URL shown in the dialog title before entering credentials.
+  Do not enter credentials if the URL differs from the expected identity provider hostname.
+* Passwords must comply with your operator's password policy (minimum length, complexity, expiry interval).
+  Do not store passwords in plain text on the device.
+====
+
+=== Step 3 — Synchronize after login
+
+[.center-caption]
+.Logipad home screen — authenticated and ready to synchronize
+image::./mui/mui_logout.png[Logipad post-login screen,80%,float="center",align="center"]
+
+After a successful login:
+
+. The status panel updates to show the authenticated *username* (e.g. *support*).
+. Tap the *Synchronize* button on the left side of the screen to pull the latest operational data from the server.
+. Wait for the synchronization to complete before using any briefing, documentation, or eForms content.
+
+The *Logout* button is now visible in the status panel for when you need to end the session.
+
+[WARNING]
+====
+*ARINC 768 compliance — data currency:*
+
+* Do *not* use Logipad for operational flight purposes until at least one successful synchronization has been confirmed after login.
+  Operating with data that has not been synchronized may result in outdated briefing packages, documents, or eForms being used in flight.
+* The *Last Success* and *Last Sync* timestamps in the status panel must be checked before departure to confirm data currency.
+  If either value remains *n/a* after a synchronization attempt, resolve the connectivity issue before proceeding.
+====
 
 == Logout
 
-To log out, click the Logout button.
+Each crew member must log out at the end of their session to prevent unauthorized access to operational data.
 
-[.center-caption]
-.Logipad logout
-image::./mui/mui_logout.png[Logipad logout,50%,float="center",align="center"]
+. Tap the *Logout* button in the status panel on the Home screen.
+. Verify that the status panel reverts to *Not signed in* confirming the session has been terminated.
+
+[WARNING]
+====
+*ARINC 768 compliance — session termination:*
+
+* Always log out explicitly when handing over the device or leaving it unattended.
+  Do not rely on automatic session expiry as the sole access-control mechanism.
+* After logout, confirm that the Home screen returns to the unauthenticated state (Login button visible, status shows *Not signed in*) before leaving the device.
+====

@@ -1,80 +1,260 @@
 = Module Library
 
-The Library module is a core component of Logipad for document management and role-based provisioning. It supports the organization, classification, and controlled distribution of documents using configurable attributes and options.
+The Library module is the central document management component of Logipad.
+It controls the organisation, classification, and role-based distribution of all documents published to crew EFBs.
+Documents are held in a configurable folder hierarchy and carry metadata attributes that govern visibility, validity period, access control, and operational behaviour on the device.
 
-== Capabilities
+== Library overview
 
-* **Role-based provisioning** — Assign documents to content roles for targeted distribution to crews or roles.
-* **Document flags** — Mark documents with one or more of:
-** Confirmable
-** Exportable
-** Indexable
-* **Priority** — Assign priority levels to documents.
-* **Open behavior** — Choose whether a document opens in the Logipad application or in an external application.
-* **Validity period** — Publish documents in a time-controlled manner using "Valid from" and "Valid until".
-* **Comments** — Add internal descriptions or notes to documents.
-* **Inventory** — Enable inventory handling when a document is opened.
-
-=== Supported content types
-
-The following content types can be published:
-
-* video
-* txt
-* epub
-* zip
-* pdf
-* htmlzip
-* html
-* doc
-* docx
-* xls
-* xlsx
-* ppt
-* pptx
-
-== Document organization
-
-Documents are organized in a folder structure. Folders can be associated with a document template to apply standard properties to documents placed in that folder. This keeps metadata and settings consistent and simplifies document ingestion.
+Navigate to *Modules > Library* to reach the document list.
 
 [.center-caption]
-.Library property (MUI)
-image::mui/mui_library_property.png[Library property settings,50%,float="center",align="center"]
+.Library overview
+image::mui/mui_library_property.png[Library overview,85%,float="center",align="center"]
 
-=== Create a new document
+The toolbar provides four top-level actions:
 
-To create a new document, use the *Create new Document* control in the Library module. Use the adjacent arrow to access additional actions: *Upload multiple documents*, *Document Types*, or *Document Template*.
+* ① *Create new Document* — create a single document record and upload the associated file.
+* ② *Create new Folder* — add a new folder to the document hierarchy.
+* ③ *Root Access Rules* — configure which content roles have access at the top level of the folder tree.
+* ④ (export icon, top-right) — export the document list for audit or migration purposes.
+
+The document table shows the following attributes for each entry:
+
+[cols="1,3",options="header"]
+|===
+| Column | Meaning
+| Display Name | The name shown to crew on the EFB.
+| Type | `Folder` for containers; document type identifier for leaf records.
+| Confirmable | Whether the crew member must confirm receipt/reading.
+| Exportable | Whether the document can be downloaded from the device.
+| Indexable | Whether the document appears in the full-text search index.
+| Open External | Whether the document opens in an external app rather than the Logipad viewer.
+| Document Priority | Priority level assigned to the document.
+| State | `Test` (non-operational) or `Prod` (operational/live).
+|===
+
+[WARNING]
+====
+*EASA AMC 20-25 §6 compliance — document state:*
+Only documents in *Prod* state are considered active and available for operational use on the EFB.
+Documents in *Test* state must never be referenced or used during flight operations.
+Ensure newly created documents remain in *Test* state until they have passed the operator's acceptance process and have been formally approved for publication.
+====
+
+== Create a new document
+
+=== Step 1 — Open the Create new Document form
+
+. In the Library toolbar, click *Create new Document* (the main button, not the dropdown arrow ▼).
+  The *Create new Document* form opens.
 
 [.center-caption]
-.Create a new document (MUI)
-image::mui/mui_library_new_document.png[Create a new document,50%,float="center",align="center"]
+.Create new Document form
+image::mui/mui_create_new_document.png[Create new Document form,75%,float="center",align="center"]
 
-=== Create new Document
+=== Step 2 — Complete the document metadata
 
+Fill in the fields on the left and right of the form:
+
+*Left panel — identification and access*
+
+. *Display Name* — enter the name that will appear on the crew EFB.
+  Use a descriptive, unambiguous name that matches the document title or part number used in the operator's document control system.
+. *Folder* — select the destination folder from the dropdown.
+  The folder determines which access rules and, if applicable, which document template defaults apply.
+. *Content Roles* — assign one or more content roles.
+  Only crew accounts that hold a matching role will receive this document on their EFB.
+. *Document Type* — select the file format classification from the dropdown (e.g. `pdf`, `html`).
+. *State* — set to *Test* or *Prod*.
+  New documents must be set to *Test* until formally approved for operational use (see warning below).
+. *Document Priority* — select a priority level (default: *None*).
+  Higher priority documents appear more prominently in the EFB document list.
+
+*Left panel — device behaviour flags*
+
+[cols="1,1,3",options="header"]
+|===
+| Flag | Default | Effect on EFB
+| Confirmable | No | When *Yes*, the crew member must acknowledge the document before it is marked as read.
+| Indexable | Yes | When *Yes*, the document content is included in full-text search on the device.
+| Exportable | Yes | When *Yes*, the crew member can export (download) the document from the device.
+| Open In External App | No | When *Yes*, the document opens in the device OS viewer rather than the Logipad reader.
+|===
+
+*Right panel — validity and visibility*
+
+. *Revision* — enter the document revision identifier (e.g. `Rev 3`, `Amendment 5`).
+  This field is mandatory for all regulated operational documents.
+. *Is visible* — set to *Yes* to make the document visible on the EFB; *No* to hide it without deleting the record.
+. *Valid From* — enter the date from which the document becomes active on the EFB.
+  Leave blank if the document should be immediately available after publication.
+. *Valid To* — enter the document expiry date.
+  After this date the document is no longer accessible on the EFB.
+. *Comment* — optional free-text field for internal administration notes (not visible to crew).
+
+=== Step 3 — Upload the file
+
+. Drag the file onto the *Drag and drop file here* zone, or click *Browse files* to open a file picker.
+  Only one file can be attached per document record.
+. Verify the filename shown matches the intended file before proceeding.
+
+=== Step 4 — Save
+
+. Click *Save* to create the document record and upload the file.
+  Click *Cancel* to discard all entries.
+
+[WARNING]
+====
+*EASA AMC 20-25 §6 and CAT.GEN.MPA.180 compliance — document publication control:*
+
+* Set *State* to *Test* for all newly created documents.
+  Only transition to *Prod* after completing the operator's document acceptance review, which must include verification that the file content matches the approved source, the revision identifier is correct, and the content roles are aligned with the authorised user population.
+* The *Valid From* and *Valid To* dates enforce automatic publication windows.
+  Do not leave *Valid To* blank for time-limited operational documents (e.g. NOTAMs, temporary procedures, seasonal publications).
+  Expired documents that remain in the system without a *Valid To* date may continue to appear on crew devices in violation of currency requirements.
+* The *Revision* field must be populated for all documents subject to the operator's document control process (Operations Manual parts, checklists, MEL, QRH).
+  A blank revision field makes it impossible to verify which version of the document is installed on the EFB during audits or incident investigations.
+* *Confirmable* must be set to *Yes* for any document that the operator's procedures require crew to acknowledge (e.g. Safety Notices, mandatory briefing material).
+  This generates a confirmation audit trail accessible to the administrator.
+====
+
+== Upload multiple documents
+
+Use bulk upload when adding a batch of documents that share the same folder, state, and template configuration.
+
+. Click the dropdown arrow (▼) next to *Create new Document*.
+. Select *Upload multiple documents*.
+  The *Create Multiple Documents* dialog opens.
++
 [.center-caption]
-.Create new document (MUI)
-image::mui/mui_create_new_document.png[Create new document,50%,float="center",align="center"]
+.Create Multiple Documents dialog
+image::mui/mui_upload_multiple_documents.png[Upload multiple documents,45%,float="center",align="center"]
++
+. Select the target *Folder* from the dropdown.
+. If the folder has an associated document template, enable *Use folder template* to apply the template's default metadata to all uploaded files automatically.
+. Enter an optional *Comment* that will be applied to all documents in this batch.
+. Set *State*: select *Test* (non-operational) or *Prod* (operational).
+. Drag all files onto the *Drag and drop files here* zone, or click *Browse files* to select multiple files at once.
+. Click *Create Documents* to upload, or *Cancel* to abort.
 
-=== Upload multiple documents
+[WARNING]
+====
+*EASA AMC 20-25 §6 compliance — bulk upload state control:*
+Bulk upload sets the same *State* value for every file in the batch.
+Never set *State* to *Prod* during a bulk upload unless every file in the batch has already completed the individual acceptance review.
+When in doubt, upload in *Test* state and promote each document to *Prod* individually after review.
+====
 
-To upload multiple documents, use the *Upload multiple documents* control in the Library module.
+== Manage document types
 
+Document types define the MIME type mapping used by Logipad to determine how a file is handled and rendered on the EFB.
+
+. Click the dropdown arrow (▼) next to *Create new Document*.
+. Select *Document Types*.
+  The *Document meta data configurations* page opens.
++
 [.center-caption]
-.Upload multiple documents (MUI)
-image::mui/mui_upload_multiple_documents.png[Upload multiple documents,50%,float="center",align="center"]
+.Document Types — metadata configurations
+image::mui/mui_document_types.png[Document Types,85%,float="center",align="center"]
++
+The table lists all defined document types with their *Name* and *MIME Type*.
+The default configuration includes common types: `doc`, `docx`, `epub`, `html`, `htmlzip`, `jpeg`, `pdf`, `png`, `ppt`, `pptx`, `txt`, `unknown`, `video`.
 
-=== Document Types
+=== Create a new document type
 
-To create a new document type, use the *Document Types* control in the Library module.
+. Click *Create new Document Type*.
+. Enter the *Name* (the identifier used in document records) and the corresponding *MIME Type*.
+. Save the record.
 
+=== Delete a document type
+
+. Click the bin icon in the row to be removed.
+. Confirm the deletion.
+
+[NOTE]
+====
+A document type that is referenced by existing document records cannot be deleted.
+Update or remove the affected document records before deleting the type.
+====
+
+[WARNING]
+====
+*EASA AMC 20-25 §4 compliance — EFB software/hardware compatibility:*
+Only add MIME types that are confirmed as supported by the EFB hardware platform and the installed Logipad application version.
+Publishing a document with an unsupported MIME type may cause the document to be inaccessible on the crew EFB, potentially resulting in missing operational information during flight.
+Any addition of a new document type that extends the EFB's content capability constitutes a configuration change and must be assessed under the operator's EFB change management process before operational deployment.
+====
+
+== Manage document templates
+
+Document templates define a reusable set of default metadata values (content roles, flags, document type, priority) that are applied automatically when a document is created in a folder associated with that template.
+Templates reduce the risk of misconfigured metadata on operational documents.
+
+. Click the dropdown arrow (▼) next to *Create new Document*.
+. Select *Document Templates*.
+  The *Document Templates* page opens at *Modules > Library > Document Templates*.
++
 [.center-caption]
-.Document Types (MUI)
-image::mui/mui_document_types.png[Document Types,50%,float="center",align="center"]
+.Document Templates
+image::mui/mui_document_template.png[Document Templates,85%,float="center",align="center"]
++
+The table lists all defined templates (e.g. *ADA*, *B777*, *Confirm*).
+Each row provides a pencil icon to edit and a bin icon to delete the template.
 
-=== Document Template
+=== Create a new template
 
-To create a new document template, use the *Document Template* control in the Library module.
+. Click *Create New Template*.
+. Enter the template *Name* and configure the default metadata values to be pre-filled when the template is applied.
+. Save the record.
 
-[.center-caption]
-.Document Template (MUI)
-image::mui/mui_document_template.png[Document Template,50%,float="center",align="center"]
+=== Delete a template
+
+. Click the bin icon in the row to be removed and confirm.
+  Deleting a template does not affect documents already created using it; only future documents will no longer inherit the defaults.
+
+[WARNING]
+====
+*EASA AMC 20-25 §5 and ORO.GEN.160 compliance — template governance:*
+
+* Templates that set *State* to *Prod* by default must only be used for folders whose content has already passed the operator's acceptance process at folder level.
+  Using a *Prod*-default template on a folder used for draft or test content will result in unreviewed documents being published to operational EFBs.
+* Template names should reflect the aircraft type, operation, or document category they serve (e.g. *B777*, *ADA*, *Confirm*) to make it unambiguous to administrators which template applies to which operational context.
+* Changes to an existing template do not retroactively alter documents already created from it.
+  If a template change is required to correct a systemic metadata error, the affected document records must be individually reviewed and updated.
+  Document this remediation action in the EFB Configuration Log in accordance with ORO.GEN.160.
+====
+
+== Create a new folder
+
+. In the Library toolbar, click *Create new Folder* (②).
+. Enter the folder name and configure access rules and an optional document template association.
+. Save the record.
+
+The folder appears in the document table immediately.
+Sub-folders can be created by navigating into a parent folder and repeating the process.
+
+[WARNING]
+====
+*EASA AMC 20-25 §6 compliance — folder access control:*
+Access rules applied at the folder level determine which crew roles can see the folder and its contents on the EFB.
+Verify that the content roles assigned to a folder are aligned with the operational authorisations documented in the operator's Operations Manual.
+An overly permissive access configuration may expose documents (e.g. Captain-only procedures, MEL) to crew who are not authorised to act on them.
+====
+
+== Root access rules
+
+Root access rules define the default content-role permissions applied at the top level of the folder hierarchy.
+All folders and documents inherit these rules unless overridden at a lower level.
+
+. In the Library toolbar, click *Root Access Rules* (③).
+. Review and configure the roles that are granted read access at the root.
+. Save the configuration.
+
+[WARNING]
+====
+*EASA AMC 20-25 §7 compliance — access control baseline:*
+The root access rules represent the broadest possible access grant in the Library module.
+Apply the principle of least privilege: grant root access only to roles that genuinely require visibility of all library content.
+Operational content that is restricted to specific crew qualifications (type-rating, authorisation level) must be placed in folders with explicitly restricted access rules, not relying solely on the root-level configuration.
+====
