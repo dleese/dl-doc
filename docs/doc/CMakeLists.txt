@@ -4,11 +4,11 @@
 
 # Version variables come from parent docs/CMakeLists.txt (get_version_from_git).
 
-# Shared book attributes (author, revision, TOC, images) — single place to change layout for both guides
+# Shared book attributes (author, TOC, images, :docbuildid: release tag) — single place for both guides
 file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/common)
 configure_file(common/guide_attributes.adoc.in ${CMAKE_CURRENT_BINARY_DIR}/common/guide_attributes.adoc @ONLY)
 
-# HTML: banner with :docbuildid: (Asciidoctor docinfo=shared)
+# HTML: top banner with release tag from :docbuildid: (Asciidoctor docinfo=shared)
 configure_file(docinfo-header.html.in ${CMAKE_CURRENT_BINARY_DIR}/docinfo-header.html @ONLY)
 
 configure_file(admin_guide_template.adoc.in ${PROJECT_BINARY_DIR}/doc/admin_guide.adoc @ONLY)
@@ -37,7 +37,7 @@ endforeach()
 set(BIN_DIR ${CMAKE_CURRENT_BINARY_DIR}/bin)
 file(MAKE_DIRECTORY ${BIN_DIR})
 
-# Versioned output names (SemVer from Git; matches :revnumber:)
+# Versioned output names (SemVer from Git; matches LP_PROJECT_VERSION in filenames)
 set(LP_DOC_ARTIFACT_SUFFIX "${LP_PROJECT_VERSION}")
 if(LP_DOC_ARTIFACT_SUFFIX STREQUAL "")
   set(LP_DOC_ARTIFACT_SUFFIX "local")

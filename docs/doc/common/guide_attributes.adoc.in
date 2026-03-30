@@ -1,7 +1,8 @@
 :Author: @LP_PROJECT_AUTHOR@
 :email: <dirk.leese@dextradata.com>
-:revnumber: @LP_PROJECT_VERSION@
-:revremark: @LP_PROJECT_REVREMARK@
+:revnumber: @LP_RELEASE_TAG@
+:!version-label:
+:revremark!:
 :docbuildid: @LP_DOC_BUILD_ID@
 
 :doctype: book

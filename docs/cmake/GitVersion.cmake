@@ -3,11 +3,12 @@
 # - Optional: working tree dirty detection
 #
 # Variables (parent scope of caller — set docs/doc/CMakeLists from docs/CMakeLists):
-#   LP_PROJECT_VERSION       — "1.3.0" for :revnumber:
-#   LP_PROJECT_REVREMARK     — human-readable for :revremark:
+#   LP_PROJECT_VERSION       — "1.3.0" for artifact filenames (admin_guide-1.3.0.html)
+#   LP_PROJECT_REVREMARK     — human-readable (reserved / README; not shown in doc body)
 #   LP_FULL_VERSION          — 1.3.0+abc1234
 #   LP_GIT_DESCRIBE          — raw git describe output
-#   LP_DOC_BUILD_ID          — describe + optional " dirty" (for traceability)
+#   LP_DOC_BUILD_ID          — release tag only: "v1.3.0" (optional dirty note; no commit hash)
+#   LP_RELEASE_TAG           — same tag without dirty suffix — for :revnumber: on title page
 #   LP_PROJECT_VERSION_*     — major/minor/patch components
 
 function(get_version_from_git)
@@ -61,7 +62,6 @@ function(get_version_from_git)
   endif()
 
   set(LP_GIT_DESCRIBE "${GIT_DESCRIBE}" PARENT_SCOPE)
-  set(LP_DOC_BUILD_ID "${GIT_DESCRIBE}${_DIRTY}" PARENT_SCOPE)
 
   # Long form: v1.3.0-0-gabc1234 or v1.3.0-5-gdef5678 ; short: v1.3.0
   string(REGEX MATCH "^v?([0-9]+)\\.([0-9]+)\\.([0-9]+)(-([0-9]+)-g([a-f0-9]+))?$" _ "${GIT_DESCRIBE}")
@@ -82,7 +82,12 @@ function(get_version_from_git)
   set(LP_PROJECT_VERSION "${_maj}.${_min}.${_pat}" PARENT_SCOPE)
   set(LP_FULL_VERSION "${_maj}.${_min}.${_pat}+${GIT_COMMIT_SHORT_HASH}" PARENT_SCOPE)
 
-  # :revremark: — short, release-oriented wording
+  # Banner / PDF footer: only the release tag (e.g. v1.4.0), never git describe / hash
+  set(_TAG "v${_maj}.${_min}.${_pat}")
+  set(LP_RELEASE_TAG "${_TAG}" PARENT_SCOPE)
+  set(LP_DOC_BUILD_ID "${_TAG}${_DIRTY}" PARENT_SCOPE)
+
+  # :revremark: — reserved for tooling/README (not embedded in HTML/PDF title block)
   if(_after STREQUAL "0" OR _after STREQUAL "")
     set(_remark "Release v${_maj}.${_min}.${_pat}")
   else()

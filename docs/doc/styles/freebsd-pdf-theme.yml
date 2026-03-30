@@ -52,7 +52,7 @@ header:
     center:
       content: '{document-title}' # Title in center of left-hand pages
 
-# Footer: Git describe / build id (same as AsciiDoc :docbuildid:)
+# Footer: release tag only (AsciiDoc :docbuildid:, e.g. v1.4.0 — no commit hash)
 footer:
   height: 0.45in
   font_size: 8

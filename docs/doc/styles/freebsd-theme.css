@@ -30,7 +30,7 @@ body {
   font-size: 18px;
 }
 
-/* Build id from docinfo-header.html (CMake substitutes LP_DOC_BUILD_ID) */
+/* Release tag from docinfo-header.html (CMake substitutes LP_DOC_BUILD_ID, e.g. v1.4.0) */
 .doc-build-banner {
   font-size: 0.85rem;
   color: #444;

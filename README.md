@@ -372,13 +372,12 @@ Versioning follows **SemVer** on **annotated `v*`** tags (e.g. `v1.3.0`). The bu
 
 | Item | Behaviour |
 | ---- | ----------- |
-| `:revnumber:` | `MAJOR.MINOR.PATCH` from the nearest matching tag on the current branch (`git describe --tags --match "v*" --long`). |
-| `:revremark:` | **Release** wording when you are exactly on a tag (or `v*-0-g*`); **development** wording when there are commits after the tag; appends a note if the **working tree is dirty** (`git diff-index`). |
-| `:docbuildid:` | Full `git describe` output plus optional dirty note (for traceability). |
-| **Where it appears** | **HTML:** a build banner at the top of the page (`docinfo-header.html` + `docinfo=shared`). **PDF:** centered in the **footer** on each page (`freebsd-pdf-theme.yml`). |
-| **Output files** | `admin_guide-<version>.html` / `.pdf` and `user_guide-<version>.html` / `.pdf` in `build/doc/bin/` so artifacts match the embedded revision. |
+| **Filenames** | `admin_guide-<version>.html` / `.pdf` use `<version>` = `MAJOR.MINOR.PATCH` parsed from the nearest `v*` tag (`git describe --tags --match "v*" --long`). |
+| `:docbuildid:` | Release tag only, e.g. **`v1.4.0`**. No `git describe` suffix or commit hash; optional note if the **working tree is dirty** (`git diff-index`). |
+| **Where it appears** | **HTML:** “Release” banner at the top (`docinfo-header.html` + `docinfo=shared`). **PDF:** centered in the **footer** (`freebsd-pdf-theme.yml`). **Title page:** `:revnumber:` (release tag, e.g. `v1.4.0` via `LP_RELEASE_TAG`). |
+| **Output files** | `build/doc/bin/admin_guide-<version>.*` and `user_guide-<version>.*`. |
 
-If Git is missing or `describe` fails, CMake fallbacks in [`docs/CMakeLists.txt`](docs/CMakeLists.txt) apply (`LP_PROJECT_VERSION`, `LP_PROJECT_REVREMARK`, `LP_DOC_BUILD_ID`).
+If Git is missing or `describe` fails, CMake fallbacks in [`docs/CMakeLists.txt`](docs/CMakeLists.txt) apply (`LP_PROJECT_VERSION`, `LP_DOC_BUILD_ID`, etc.).
 
 **Workflow:** tag `main` with `v1.3.0`, push the tag, then **`cmake ../docs`** (or a clean configure) and **`make doc`**. See [Git Workflow](#git-workflow) for tag commands.
 
