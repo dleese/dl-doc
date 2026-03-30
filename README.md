@@ -57,7 +57,7 @@ The documentation is split into **two guides**, each built as HTML and PDF:
 | **Logipad Administration Guide** | Deploy, configure, operate (infrastructure, Keycloak, Library/MUI) | `docs/doc/chapters/admin/` |
 | **Logipad User Guide** | End users (briefing, login/logout, quick reference) | `docs/doc/chapters/user/` |
 
-Master documents (per-guide title, abstract, chapter includes) are `admin_guide_template.adoc.in` and `user_guide_template.adoc.in`. Shared book settings (author, revision, TOC, images) live in `common/guide_attributes.adoc.in` so both guides stay in sync. Customer-specific URLs are substituted in `chapters/admin/infrastructure.adoc` via CMake from `infrastructure.adoc.in`.
+Master documents (per-guide title, abstract, chapter includes) are `admin_guide_template.adoc.in` and `user_guide_template.adoc.in`. Shared book settings (author, TOC, images, release tag / `:docbuildid:`) live in `common/guide_attributes.adoc.in` so both guides stay in sync. Customer-specific URLs are substituted in `chapters/admin/infrastructure.adoc` via CMake from `infrastructure.adoc.in`.
 
 ```
 dl-doc/
@@ -131,7 +131,7 @@ cmake ../docs
 make doc
 ```
 
-The HTML documentation will be generated at (the `*-<version>*` suffix is SemVer from Git, e.g. `1.3.0`):
+The HTML documentation will be generated at (the `*-<version>*` suffix is SemVer from Git, e.g. `1.4.1`):
 
 - `build/doc/bin/admin_guide-<version>.html` — Administration Guide
 - `build/doc/bin/user_guide-<version>.html` — User Guide
@@ -140,11 +140,11 @@ Re-run `cmake ../docs` after creating or moving to a new **`v*`** tag so the fil
 
 ### Open in Browser
 
-After building, open the HTML files in your browser (replace `<version>` with the folder name CMake printed, e.g. `1.3.0`):
+After building, open the HTML files in your browser (replace `<version>` with the value from Git, e.g. `1.4.1`):
 
 ```bash
-open build/doc/bin/admin_guide-1.3.0.html
-open build/doc/bin/user_guide-1.3.0.html
+open build/doc/bin/admin_guide-1.4.1.html
+open build/doc/bin/user_guide-1.4.1.html
 ```
 
 ### Features
@@ -175,8 +175,8 @@ The PDF documentation will be generated at:
 ### Open the PDF
 
 ```bash
-open build/doc/bin/admin_guide-1.3.0.pdf
-open build/doc/bin/user_guide-1.3.0.pdf
+open build/doc/bin/admin_guide-1.4.1.pdf
+open build/doc/bin/user_guide-1.4.1.pdf
 ```
 
 ### PDF Customization
@@ -220,9 +220,9 @@ After a successful build, documentation files are located in:
 ```
 build/doc/bin/admin_guide-<version>.html
 build/doc/bin/user_guide-<version>.html
-build/doc/bin/images/              # Associated images
-build/doc/bin/styles/              # CSS stylesheets
-build/doxygen/                      # C++ API documentation (if docs/src exists)
+build/doc/bin/images/              # Copied alongside HTML for relative image paths
+build/doc/styles/                  # CSS used when building (often embedded in the .html)
+build/doxygen/                     # C++ API documentation (if docs/src exists)
 ```
 
 ### PDF Output
@@ -368,18 +368,18 @@ make doc
 
 ### Version Management
 
-Versioning follows **SemVer** on **annotated `v*`** tags (e.g. `v1.3.0`). The build is the single source of truth: **`cmake ../docs`** runs [`docs/cmake/GitVersion.cmake`](docs/cmake/GitVersion.cmake) from the **repository root** (`git rev-parse --show-toplevel`).
+Versioning follows **SemVer** on **annotated `v*`** tags (e.g. `v1.4.1`). The build is the single source of truth: **`cmake ../docs`** runs [`docs/cmake/GitVersion.cmake`](docs/cmake/GitVersion.cmake) from the **repository root** (`git rev-parse --show-toplevel`).
 
 | Item | Behaviour |
 | ---- | ----------- |
 | **Filenames** | `admin_guide-<version>.html` / `.pdf` use `<version>` = `MAJOR.MINOR.PATCH` parsed from the nearest `v*` tag (`git describe --tags --match "v*" --long`). |
-| `:docbuildid:` | Release tag only, e.g. **`v1.4.0`**. No `git describe` suffix or commit hash; optional note if the **working tree is dirty** (`git diff-index`). |
-| **Where it appears** | **HTML:** “Release” banner at the top (`docinfo-header.html` + `docinfo=shared`). **PDF:** centered in the **footer** (`freebsd-pdf-theme.yml`). **Title page:** `:revnumber:` (release tag, e.g. `v1.4.0` via `LP_RELEASE_TAG`). |
+| `:docbuildid:` | Release tag only, e.g. **`v1.4.1`**. No `git describe` suffix or commit hash; optional note if the **working tree is dirty** (`git diff-index`). |
+| **Where it appears** | **HTML:** “Release” banner at the top (`docinfo-header.html` + `docinfo=shared`). **PDF:** centered in the **footer** (`freebsd-pdf-theme.yml`). **Title page:** `:revnumber:` (release tag, e.g. `v1.4.1` via `LP_RELEASE_TAG`; `:!version-label:` removes the default “Version” prefix). |
 | **Output files** | `build/doc/bin/admin_guide-<version>.*` and `user_guide-<version>.*`. |
 
 If Git is missing or `describe` fails, CMake fallbacks in [`docs/CMakeLists.txt`](docs/CMakeLists.txt) apply (`LP_PROJECT_VERSION`, `LP_DOC_BUILD_ID`, etc.).
 
-**Workflow:** tag `main` with `v1.3.0`, push the tag, then **`cmake ../docs`** (or a clean configure) and **`make doc`**. See [Git Workflow](#git-workflow) for tag commands.
+**After a release:** check out the tag (or stay on `main` at that commit), run **`cmake ../docs`** from your `build/` directory, then **`make doc`** so filenames and embedded `LP_RELEASE_TAG` / `:docbuildid:` match the new tag.
 
 ## Git Workflow
 
@@ -411,14 +411,26 @@ This project uses **GitHub Flow**: `main` is the only long-lived branch and is a
    git merge feature/short-description
    git push origin main
    ```
-5. To release: create an annotated tag from `main`, then push the tag:
+5. **Cut a documentation release** (annotated `v*` tag on `main` — SemVer: bump **patch** for fixes, **minor** for new sections, **major** for breaking doc structure):
    ```bash
    git checkout main
    git pull origin main
-   git tag -a v1.2.0 -m "Release v1.2.0: description of changes"
-   git push origin v1.2.0
+   # Commit any remaining release-only edits on main, then:
+   git tag -a vX.Y.Z -m "Release vX.Y.Z: short summary of changes"
+   git push origin main          # ensure main (with the release commit) is on the remote
+   git push origin vX.Y.Z        # publish the tag (required for GitVersion / CI)
    ```
-   The documentation build will use this tag for version info (see `docs/cmake/GitVersion.cmake`).
+   The tag must point at the commit you want users to build; **`git describe`** in [`docs/cmake/GitVersion.cmake`](docs/cmake/GitVersion.cmake) uses the nearest **`v*`** tag on the current branch.
+
+### GitHub Release (optional)
+
+If you use [GitHub CLI](https://cli.github.com/) (`gh`) and are logged in (`gh auth login`):
+
+```bash
+gh release create vX.Y.Z --title "vX.Y.Z — short title" --notes "Release notes (markdown ok)."
+```
+
+This creates a **GitHub Release** for the existing tag (create the **tag** first with `git tag` as above, then `git push origin vX.Y.Z`). Omit `--notes` and pass `--generate-notes` to fill notes from commits if you prefer.
 
 ## Git Best Practices
 
@@ -426,7 +438,7 @@ This project uses **GitHub Flow**: `main` is the only long-lived branch and is a
 - **Branch naming** — Use `feature/<short-name>`, or if you adopt release/hotfix branches later: `release/<version>`, `hotfix/<short-name>`.
 - **Before pushing** — Run `git pull --rebase origin main` (from `main` or before merging) to avoid unnecessary merge commits.
 - **No force push** — Do not force-push to `main`; keep history stable for tags and releases.
-- **Tags** — Use annotated tags for releases: `git tag -a v1.2.0 -m "Release message"`. Push tags explicitly: `git push origin v1.2.0`.
+- **Tags** — Use **annotated** tags for releases: `git tag -a vX.Y.Z -m "Release message"`. Push **`main`** (or the release branch) first if needed, then push the tag: `git push origin vX.Y.Z`.
 - **Secrets** — Never commit `.env` or secrets; they are listed in `.gitignore`.
 
 ## Environment Information
