@@ -4,7 +4,7 @@ The *General > Users* section of the Logipad Management User Interface (MUI) is 
 
 [.center-caption]
 .Users overview — action menu
-image::./mui/mui_create_user_overview.png[User management overview,75%,float="center",align="center"]
+image::mui_create_user_overview.png[User management overview,75%,float="center",align="center"]
 
 The primary action button *Create new User* (①) opens the new-user form directly.
 Clicking the dropdown arrow (▼) next to it reveals three additional bulk operations:
@@ -30,7 +30,7 @@ Generic or shared administrator logins are not permitted.
 
 [.center-caption]
 .Create new User — action button and dropdown
-image::./mui/mu_user_create.png[Create new user button,40%,float="center",align="center"]
+image::mui_user_create.png[Create new user button,40%,float="center",align="center"]
 
 [WARNING]
 ====
@@ -50,7 +50,7 @@ Bulk import allows an administrator to create multiple user accounts in a single
 +
 [.center-caption]
 .Import Users dialog
-image::./mui/mui_import_users.png[Import Users dialog,50%,float="center",align="center"]
+image::mui_import_users.png[Import Users dialog,50%,float="center",align="center"]
 +
 . Verify the CSV format settings:
   * *Separator* — field delimiter character used in the source file (default: `;`).
@@ -91,7 +91,7 @@ The export function produces a CSV snapshot of all current user accounts.
 +
 [.center-caption]
 .Export Users dialog
-image::./mui/mui_export_users.png[Export Users dialog,60%,float="center",align="center"]
+image::mui_export_users.png[Export Users dialog,60%,float="center",align="center"]
 +
 . Configure the output format:
   * *Separator* — field delimiter for the exported file (default: `;`).
@@ -121,13 +121,13 @@ They must correspond to the crew roles and authorisation levels documented in th
 +
 [.center-caption]
 .User Types management page
-image::./mui/mui_user_types.png[User Types page,60%,float="center",align="center"]
+image::mui_user_types.png[User Types page,60%,float="center",align="center"]
 +
 The table lists all defined user types (e.g. *Demo*, *Logipad Support*, *Primary test user*).
 Each row provides:
 +
-* A pencil icon (image:./mui/mui_edit_icon.png[edit,16]) to edit the user type name.
-* A bin icon (image:./mui/mui_delete_icon.png[delete,16]) to delete the user type.
+* A pencil icon (image:mui_edit_icon.png[edit,16]) to edit the user type name.
+* A bin icon (image:mui_delete_icon.png[delete,16]) to delete the user type.
 +
 . Use the *Filter* field to search by name across large lists.
   Click *Reset* to clear the filter and show all items.
@@ -139,7 +139,7 @@ Each row provides:
 +
 [.center-caption]
 .Create new User Type dialog
-image::./mui/mui_create_new_user_type.png[Create new User Type dialog,55%,float="center",align="center"]
+image::mui_create_new_user_type.png[Create new User Type dialog,55%,float="center",align="center"]
 +
 . Enter a *Name* for the new user type (required field, marked with *).
   Use a descriptive name that reflects the operational role (e.g. *Captain*, *First Officer*, *Dispatcher*).

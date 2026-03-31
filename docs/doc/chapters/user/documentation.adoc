@@ -1,0 +1,109 @@
+= Documentation module
+The _Documentation_ module in Logipad is a digital library for operational documents (for example manuals, bulletins, and regulations). It lets crew members find, open, download, and manage the documents assigned to them.
+
+The Documentation view shows all documents assigned to the user. The list can be searched, filtered, and sorted (for example by date, document type, or category). For each document, users can open the content and view metadata such as revision/version information and related documents (if provided).
+
+IMPORTANT: Regulatory and operational notice::
+This guide describes how to use the application. It does not replace company-approved operational documentation (for example AFM/POH, OM-A/OM-B, MEL/CDL, QRH, and dispatch release). Users must follow the operator’s procedures for document control, revision management, and required acknowledgements. If a conflict exists between this guide and company-approved documents, the company-approved documents take precedence.
+
+Supported document formats include:
+
+* PDF
+* Images (PNG)
+* Video (MP4, AVI, MOV)
+* Audio (MP3, WAV)
+* Microsoft Office (Word, Excel, PowerPoint)
+* ePub
+* Text (TXT, RTF)
+* HTML
+* HTML ZIP files (compressed HTML packages)
+* Most XML formats
+* Boeing EDB with XML documents
+
+The module also supports features such as search, categorization, annotation, sharing, offline access, and version history.
+
+== Document Library Features
+The Documentation module includes the following features to assist pilots in managing and accessing documents effectively:
+
+**Document search:** Search the library by keyword, title, or phrase. Depending on configuration, search can include document content for items downloaded for offline use.
+
+**Annotation:** Add highlights and notes for reference. Use annotations to mark important sections or add clarifying remarks.
+
+**Sharing:** Share documents with other users (as allowed by operator policy and permissions).
+
+**Offline access:** Download documents so they are available without a network connection.
+
+**Document versioning:** Access previous versions (if retained by configuration) and see revision history.
+
+**Document confirmation (acknowledgement):** Acknowledge documents that require confirmation. This supports operator processes for tracking that required documents were reviewed.
+
+**Document expiration:** Documents can expire based on date or conditions defined by the operator.
+
+**Document prioritization:** Prioritize documents by importance or urgency.
+
+**Document restrictions:** Access control can limit visibility by role, user group, or other rules.
+
+**Document types:** View supported file types directly in the app, depending on format and device capabilities.
+
+== Documentation global settings
+Global settings are configured by the Logipad administrator and apply to all users and documents.
+
+.Documentation Global Settings
+image::ios_Documentation_Global_Settings.png[Example Image, width=600, alt="Logipad global Documentation settings"]
+
+* *_Search documentation content_*
+    ** *_yes_* Content search is enabled for documents downloaded for offline use. An on-device search index is created when the document is downloaded.
+    ** *_no_* Content search is disabled. No on-device search index is created.
+
+* *_Mark Modified as "New"_*
+    ** Default is 7 days. Documents modified within this period are marked as *New* in the list.
+    ** Options: *Never*, *1 day (24 hours)*, *2 days (48 hours)*, *3 days (72 hours)*, *14 days*, *30 days*.
+
+* *_Mark as "New" only on revision change_*
+    ** *_yes_* Mark *New* only when the document revision changes.
+    ** *_no_* Mark *New* whenever the document is modified, even if the revision does not change.
+
+* *_Mark as "Read" when opened_*
+    ** *_yes_* Mark documents as *Read* automatically when opened.
+    ** *_no_* Users mark documents as *Read* manually.
+
+* *_Mark Downloaded as "New"_*
+    ** *_yes_* Mark downloaded documents as *New*. The document icon shows a green exclamation indicator. Options: *Never*, *1 day (24 hours)*, *2 days (48 hours)*, *3 days (72 hours)*, *14 days*, *30 days*.
+    ** *_no_* Do not mark downloaded documents as *New* automatically.
+
+* *_Remove backup documents after_*
+    ** *_immediately_* Remove backup documents immediately after deletion.
+    ** *_1 week_* Remove backup documents after 7 days
+    ** *_1 month (30 days)_* Remove backup documents after 30 days
+    ** *_3 months_* Remove backup documents after 90 days
+    ** *_6 months_* Remove backup documents after 180 days
+    ** *_1 Year_* Remove backup documents after 365 days
+    ** *_Never_* Never remove backup documents. Documents remain cached on the device until the user deletes the Logipad app.
+
+* *_Document Versions to store_*
+    ** *_none_* Store no previous versions (current version only).
+    ** *_1_* Store the latest 1 version.
+    ** *_2_* Store the latest 2 versions.
+    ** *_3_* Store the latest 3 versions.
+    ** *_4_* Store the latest 4 versions.
+    ** *_5_* Store the latest 5 versions.
+    ** *_6_* Store the latest 6 versions.
+    ** *_7_* Store the latest 7 versions.
+    ** *_8_* Store the latest 8 versions.
+    ** *_9_* Store the latest 9 versions.
+    ** *_10_* Store the latest 10 versions.
+    ** *_all_* Store all versions.
+
+* *_Keep Bookmarks_*
+    ** *_yes_* Keep bookmarks when a document is updated.
+    ** *_no_* Do not keep bookmarks when a document is updated.
+
+* *_Upload Confirmations immediately_*  
+    ** *_yes_* Upload acknowledgements automatically when connectivity is available. If offline, acknowledgements are queued and sent when the device is online.
+    ** *_no_* Upload acknowledgements only when the user synchronizes manually (for example by tapping *Synchronize* or using the pull-to-refresh gesture in the document list).
+
+== Documentation View 
+The Documentation view shows the documents assigned to the user. The list can be searched, filtered, and sorted.
+
+.Documentation Standard View
+image::ios_Documentation_View_Standard.png[Example Image, width=600, alt="Documentation standard view"]

@@ -72,7 +72,6 @@ set(ASCIIDOCTOR_ATTRS
   -a toclevels=3
   -a sectnums
   -a sectnumlevels=4
-  -a imagesdir=images/
   -a docinfo=shared
 )
 if(ENABLE_AZURE)
@@ -101,6 +100,7 @@ if(DOC_FORMAT STREQUAL "html")
     COMMAND asciidoctor ${CMAKE_CURRENT_BINARY_DIR}/admin_guide.adoc 
       -a stylesheet=styles/freebsd-theme.css
       ${ASCIIDOCTOR_ATTRS}
+      -a imagesdir=images/mui
       -o ${ADMIN_GUIDE_HTML}
     DEPENDS ${GUIDE_MASTER_SOURCES} ${GUIDE_CHAPTER_SOURCES} ${CMAKE_CURRENT_BINARY_DIR}/.images_copied
       ${CMAKE_CURRENT_BINARY_DIR}/docinfo-header.html
@@ -114,6 +114,7 @@ if(DOC_FORMAT STREQUAL "html")
     COMMAND asciidoctor ${CMAKE_CURRENT_BINARY_DIR}/user_guide.adoc 
       -a stylesheet=styles/freebsd-theme.css
       ${ASCIIDOCTOR_ATTRS}
+      -a imagesdir=images/ios
       -o ${USER_GUIDE_HTML}
     DEPENDS ${GUIDE_MASTER_SOURCES} ${GUIDE_CHAPTER_SOURCES} ${CMAKE_CURRENT_BINARY_DIR}/.images_copied
       ${CMAKE_CURRENT_BINARY_DIR}/docinfo-header.html
@@ -132,6 +133,7 @@ elseif(DOC_FORMAT STREQUAL "pdf")
       -a pdf-theme=styles/freebsd-pdf-theme.yml
       -a pdf-fontsdir=${FONTS_DIR}
       ${ASCIIDOCTOR_ATTRS}
+      -a imagesdir=images/mui
       -o ${ADMIN_GUIDE_PDF}
     DEPENDS ${GUIDE_MASTER_SOURCES} ${PDF_THEME_OUT} ${CMAKE_CURRENT_BINARY_DIR}/.images_copied
       ${CMAKE_CURRENT_BINARY_DIR}/chapters/admin/contacts.adoc
@@ -147,9 +149,10 @@ elseif(DOC_FORMAT STREQUAL "pdf")
       -a pdf-theme=styles/freebsd-pdf-theme.yml
       -a pdf-fontsdir=${FONTS_DIR}
       ${ASCIIDOCTOR_ATTRS}
+      -a imagesdir=images/ios
       -o ${USER_GUIDE_PDF}
     DEPENDS ${GUIDE_MASTER_SOURCES} ${PDF_THEME_OUT} ${CMAKE_CURRENT_BINARY_DIR}/.images_copied
-      ${CMAKE_CURRENT_BINARY_DIR}/chapters/user/briefingprocess.adoc
+      ${CMAKE_CURRENT_BINARY_DIR}/chapters/user/briefing.adoc
       ${CMAKE_CURRENT_BINARY_DIR}/chapters/user/quick_reference_guide.adoc
     WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
     COMMENT "Generating User Guide (PDF)"

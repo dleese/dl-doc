@@ -10,7 +10,7 @@ Navigate to *Modules > Library* to reach the document list.
 
 [.center-caption]
 .Library overview
-image::mui/mui_library_property.png[Library overview,85%,float="center",align="center"]
+image::mui_library_property.png[Library overview,85%,float="center",align="center"]
 
 The toolbar provides four top-level actions:
 
@@ -51,7 +51,7 @@ Ensure newly created documents remain in *Test* state until they have passed the
 
 [.center-caption]
 .Create new Document form
-image::mui/mui_create_new_document.png[Create new Document form,75%,float="center",align="center"]
+image::mui_create_new_document.png[Create new Document form,75%,float="center",align="center"]
 
 === Step 2 — Complete the document metadata
 
@@ -129,7 +129,7 @@ Use bulk upload when adding a batch of documents that share the same folder, sta
 +
 [.center-caption]
 .Create Multiple Documents dialog
-image::mui/mui_upload_multiple_documents.png[Upload multiple documents,45%,float="center",align="center"]
+image::mui_upload_multiple_documents.png[Upload multiple documents,45%,float="center",align="center"]
 +
 . Select the target *Folder* from the dropdown.
 . If the folder has an associated document template, enable *Use folder template* to apply the template's default metadata to all uploaded files automatically.
@@ -156,7 +156,7 @@ Document types define the MIME type mapping used by Logipad to determine how a f
 +
 [.center-caption]
 .Document Types — metadata configurations
-image::mui/mui_document_types.png[Document Types,85%,float="center",align="center"]
+image::mui_document_types.png[Document Types,85%,float="center",align="center"]
 +
 The table lists all defined document types with their *Name* and *MIME Type*.
 The default configuration includes common types: `doc`, `docx`, `epub`, `html`, `htmlzip`, `jpeg`, `pdf`, `png`, `ppt`, `pptx`, `txt`, `unknown`, `video`.
@@ -197,7 +197,7 @@ Templates reduce the risk of misconfigured metadata on operational documents.
 +
 [.center-caption]
 .Document Templates
-image::mui/mui_document_template.png[Document Templates,85%,float="center",align="center"]
+image::mui_document_template.png[Document Templates,85%,float="center",align="center"]
 +
 The table lists all defined templates (e.g. *ADA*, *B777*, *Confirm*).
 Each row provides a pencil icon to edit and a bin icon to delete the template.

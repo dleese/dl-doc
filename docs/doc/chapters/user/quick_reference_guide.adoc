@@ -11,7 +11,7 @@ The application starts in an unauthenticated state; no briefing data or document
 
 [.center-caption]
 .Logipad home screen — unauthenticated state
-image::./mui/mui_login.png[Logipad login screen,50%,float="center",align="center"]
+image::ios_login.png[Logipad login screen,50%,float="center",align="center"]
 
 After launching the Logipad application:
 
@@ -37,7 +37,7 @@ Using an unapproved software version may constitute a deviation from your operat
 
 [.center-caption]
 .Logipad authentication dialog
-image::./mui/mui_login_credentials.png[Logipad login credentials,50%,float="center",align="center"]
+image::ios_login_credentials.png[Logipad login credentials,50%,float="center",align="center"]
 
 The authentication dialog is served by the identity provider at *keycloak-cloud.logipad.net*.
 
@@ -65,7 +65,7 @@ If you have forgotten your password, tap *Forgot Password?* to initiate a self-s
 
 [.center-caption]
 .Logipad home screen — authenticated and ready to synchronize
-image::./mui/mui_logout.png[Logipad post-login screen,80%,float="center",align="center"]
+image::ios_logout.png[Logipad post-login screen,80%,float="center",align="center"]
 
 After a successful login:
 
