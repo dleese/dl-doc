@@ -2,7 +2,7 @@
 include::common/guide_attributes.adoc[]
 
 [abstract]
-This guide is for end users of Logipad: briefing and day-to-day use (login, logout, quick reference).
+This guide is for operational end users of Logipad. It covers the Home screen (login, logout, and synchronization), Briefing workflow (view, activate, finalize, offline use), Documentation (find, filter, confirm, and open documents), and eForms (complete and submit electronic forms), plus a quick reference section.
 
 include::chapters/user/home.adoc[leveloffset=+1]
 

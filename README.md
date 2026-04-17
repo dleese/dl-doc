@@ -50,15 +50,6 @@ Download the Inter font family from [Google Fonts](https://fonts.google.com/spec
 
 ## Project Structure
 
-The documentation is split into **two guides**, each built as HTML and PDF:
-
-| Guide | Role | Chapter files |
-| ----- | ---- | --------------- |
-| **Logipad Administration Guide** | Deploy, configure, operate (infrastructure, Keycloak, Library/MUI) | `docs/doc/chapters/admin/` |
-| **Logipad User Guide** | End users (briefing, login/logout, quick reference) | `docs/doc/chapters/user/` |
-
-Master documents (per-guide title, abstract, chapter includes) are `admin_guide_template.adoc.in` and `user_guide_template.adoc.in`. Shared book settings (author, TOC, images, release tag / `:docbuildid:`) live in `common/guide_attributes.adoc.in` so both guides stay in sync. Customer-specific URLs are substituted in `chapters/admin/infrastructure.adoc` via CMake from `infrastructure.adoc.in`.
-
 ```
 dl-doc/
 ├── docs/                          # Documentation source
@@ -68,19 +59,13 @@ dl-doc/
 │   │   ├── GitVersion.cmake      # Git version extraction
 │   │   └── ...
 │   └── doc/                       # Documentation content
-│       ├── admin_guide_template.adoc.in
-│       ├── user_guide_template.adoc.in
-│       ├── common/
-│       │   └── guide_attributes.adoc.in   # shared header for both guides
-│       ├── chapters/
-│       │   ├── admin/            # Administration Guide chapters
-│       │   └── user/             # User Guide chapters
+│       ├── *.adoc                # AsciiDoc source files
 │       ├── images/               # Images and assets
 │       └── styles/               # CSS and theme files
 └── build/                        # (Generated) Build directory
     └── bin/                      # (Generated) Output files
-        ├── admin_guide-<version>.html / .pdf
-        └── user_guide-<version>.html / .pdf
+        ├── doc_title.html        # HTML documentation
+        └── doc_title.pdf         # PDF documentation
 ```
 
 ## Building the Documentation
@@ -107,19 +92,7 @@ cmake ../docs
 make doc
 ```
 
-This will generate **both** guides in the default format. Output files are in `build/doc/bin/`.
-
-### Cleaning the build directory
-
-Use one of these when you want a full reset (for example after large CMake or layout changes). You must run `cmake ../docs` again afterward.
-
-| Method | Command |
-| ------ | ------- |
-| **CMake target** (from inside `build/`) | `cmake --build . --target clean-build` or `make clean-build` |
-| **Shell script** (from repo root; optional path) | `./scripts/clean-build.sh` or `./scripts/clean-build.sh /path/to/your/build` |
-| **Manual** | `rm -rf build` (from repo root) then recreate `build/` and reconfigure |
-
-`make clean` only removes build outputs that CMake tracks; it does not delete the whole `build/` tree. `clean-build` removes the entire configured build directory.
+This will generate the documentation in the default format and the output will be available in `build/doc/bin/`.
 
 ## Building HTML Documentation
 
@@ -131,20 +104,14 @@ cmake ../docs
 make doc
 ```
 
-The HTML documentation will be generated at (the `*-<version>*` suffix is SemVer from Git, e.g. `1.4.1`):
-
-- `build/doc/bin/admin_guide-<version>.html` — Administration Guide
-- `build/doc/bin/user_guide-<version>.html` — User Guide
-
-Re-run `cmake ../docs` after creating or moving to a new **`v*`** tag so the filename and embedded revision match.
+The HTML documentation will be generated at: `build/doc/bin/doc_title.html`
 
 ### Open in Browser
 
-After building, open the HTML files in your browser (replace `<version>` with the value from Git, e.g. `1.4.1`):
+After building, open the HTML file in your browser:
 
 ```bash
-open build/doc/bin/admin_guide-1.4.1.html
-open build/doc/bin/user_guide-1.4.1.html
+open build/doc/bin/doc_title.html
 ```
 
 ### Features
@@ -167,16 +134,12 @@ cmake ../docs -DDOC_FORMAT=pdf
 make doc
 ```
 
-The PDF documentation will be generated at:
-
-- `build/doc/bin/admin_guide-<version>.pdf`
-- `build/doc/bin/user_guide-<version>.pdf`
+The PDF documentation will be generated at: `build/doc/bin/doc_title.pdf`
 
 ### Open the PDF
 
 ```bash
-open build/doc/bin/admin_guide-1.4.1.pdf
-open build/doc/bin/user_guide-1.4.1.pdf
+open build/doc/bin/doc_title.pdf
 ```
 
 ### PDF Customization
@@ -218,17 +181,15 @@ After a successful build, documentation files are located in:
 
 ### HTML Output
 ```
-build/doc/bin/admin_guide-<version>.html
-build/doc/bin/user_guide-<version>.html
-build/doc/bin/images/              # Copied alongside HTML for relative image paths
-build/doc/styles/                  # CSS used when building (often embedded in the .html)
-build/doxygen/                     # C++ API documentation (if docs/src exists)
+build/doc/bin/doc_title.html
+build/doc/bin/images/              # Associated images
+build/doc/bin/styles/              # CSS stylesheets
+build/doxygen/                      # C++ API documentation
 ```
 
 ### PDF Output
 ```
-build/doc/bin/admin_guide-<version>.pdf
-build/doc/bin/user_guide-<version>.pdf
+build/doc/bin/doc_title.pdf
 build/doc/bin/images/              # Referenced images
 ```
 
@@ -236,7 +197,7 @@ build/doc/bin/images/              # Referenced images
 
 ### Enable/Disable Azure Documentation
 
-By default, the "Manage Microsoft Azure AD Users" section in the **Administration Guide** (Keycloak chapter) is **enabled**.
+By default, the "Manage Microsoft Azure AD Users" chapter is **enabled**.
 
 #### Disable Azure Chapter
 
@@ -302,9 +263,20 @@ sudo apt-get install doxygen
 sudo dnf install doxygen
 ```
 
-### Issue: PDF build fails with "cannot load such file -- bigdecimal"
+### Issue: PDF build fails with "cannot load such file -- bigdecimal/logger/ostruct"
 
-**Solution:** Asciidoctor-PDF requires the `bigdecimal` gem. Install it with `gem install bigdecimal` (use the same Ruby that runs `asciidoctor-pdf`, e.g. `/opt/homebrew/opt/ruby/bin/gem install bigdecimal`). If that fails with "The compiler failed to generate an executable file" or "stdio.h file not found", install or reinstall the Xcode Command Line Tools: `xcode-select --install`. Then run the `gem install` again **in your own Terminal** (not inside an IDE), so the compiler and SDK are found. After that, run the PDF build from the project `build/` directory.
+**Root cause:** Ruby 4.0 removed several previously bundled standard library items (`bigdecimal`, `logger`, `ostruct`, `csv`, `base64`, `mutex_m`, `drb`, `nkf`) from the default gems. When Homebrew upgrades Ruby to 4.0+, the `asciidoctor` formula's isolated gem environment (in `libexec/`) stops working because these gems are no longer available. Running `brew reinstall asciidoctor` restores the formula but does not add the missing gems — they must be installed manually into the formula's gem environment.
+
+**Solution:** Install the missing gems directly into the Homebrew formula's gem path, with `SDKROOT` set so the C compiler can find the macOS SDK headers:
+
+```bash
+SDKROOT=$(xcrun --sdk macosx --show-sdk-path) \
+GEM_HOME=/opt/homebrew/Cellar/asciidoctor/2.0.26/libexec \
+/opt/homebrew/opt/ruby/bin/gem install \
+  bigdecimal logger ostruct csv base64 mutex_m drb nkf
+```
+
+> **Note:** Adjust the path `asciidoctor/2.0.26` to match the installed version (`brew info asciidoctor` shows the path). This step must be repeated after any `brew reinstall asciidoctor`.
 
 ### Issue: PDF generation fails with font warnings
 
@@ -327,9 +299,8 @@ brew install cmake
 
 ### Issue: Clean rebuild needed
 
-**Solution:** Remove the build directory and configure again. Prefer the [Cleaning the build directory](#cleaning-the-build-directory) options (`clean-build` target or `./scripts/clean-build.sh`), or manually:
+**Solution:** Remove the build directory and rebuild from scratch:
 ```bash
-cd /path/to/dl-doc
 rm -rf build
 mkdir build
 cd build
@@ -348,7 +319,7 @@ make doc
 
 ### Editing Documentation
 
-1. Edit chapter files under `docs/doc/chapters/admin/` or `docs/doc/chapters/user/`, or adjust masters `docs/doc/admin_guide_template.adoc.in` / `user_guide_template.adoc.in`
+1. Edit AsciiDoc files in `docs/doc/*.adoc`
 2. Add/update images in `docs/doc/images/`
 3. Rebuild documentation:
    ```bash
@@ -368,18 +339,7 @@ make doc
 
 ### Version Management
 
-Versioning follows **SemVer** on **annotated `v*`** tags (e.g. `v1.4.1`). The build is the single source of truth: **`cmake ../docs`** runs [`docs/cmake/GitVersion.cmake`](docs/cmake/GitVersion.cmake) from the **repository root** (`git rev-parse --show-toplevel`).
-
-| Item | Behaviour |
-| ---- | ----------- |
-| **Filenames** | `admin_guide-<version>.html` / `.pdf` use `<version>` = `MAJOR.MINOR.PATCH` parsed from the nearest `v*` tag (`git describe --tags --match "v*" --long`). |
-| `:docbuildid:` | Release tag only, e.g. **`v1.4.1`**. No `git describe` suffix or commit hash; optional note if the **working tree is dirty** (`git diff-index`). |
-| **Where it appears** | **HTML:** “Release” banner at the top (`docinfo-header.html` + `docinfo=shared`). **PDF:** centered in the **footer** (`freebsd-pdf-theme.yml`). **Title page:** `:revnumber:` (release tag, e.g. `v1.4.1` via `LP_RELEASE_TAG`; `:!version-label:` removes the default “Version” prefix). |
-| **Output files** | `build/doc/bin/admin_guide-<version>.*` and `user_guide-<version>.*`. |
-
-If Git is missing or `describe` fails, CMake fallbacks in [`docs/CMakeLists.txt`](docs/CMakeLists.txt) apply (`LP_PROJECT_VERSION`, `LP_DOC_BUILD_ID`, etc.).
-
-**After a release:** check out the tag (or stay on `main` at that commit), run **`cmake ../docs`** from your `build/` directory, then **`make doc`** so filenames and embedded `LP_RELEASE_TAG` / `:docbuildid:` match the new tag.
+The project version is automatically extracted from Git tags. See [Git Workflow](#git-workflow) for how to create and push release tags.
 
 ## Git Workflow
 
@@ -411,26 +371,14 @@ This project uses **GitHub Flow**: `main` is the only long-lived branch and is a
    git merge feature/short-description
    git push origin main
    ```
-5. **Cut a documentation release** (annotated `v*` tag on `main` — SemVer: bump **patch** for fixes, **minor** for new sections, **major** for breaking doc structure):
+5. To release: create an annotated tag from `main`, then push the tag:
    ```bash
    git checkout main
    git pull origin main
-   # Commit any remaining release-only edits on main, then:
-   git tag -a vX.Y.Z -m "Release vX.Y.Z: short summary of changes"
-   git push origin main          # ensure main (with the release commit) is on the remote
-   git push origin vX.Y.Z        # publish the tag (required for GitVersion / CI)
+   git tag -a v1.2.0 -m "Release v1.2.0: description of changes"
+   git push origin v1.2.0
    ```
-   The tag must point at the commit you want users to build; **`git describe`** in [`docs/cmake/GitVersion.cmake`](docs/cmake/GitVersion.cmake) uses the nearest **`v*`** tag on the current branch.
-
-### GitHub Release (optional)
-
-If you use [GitHub CLI](https://cli.github.com/) (`gh`) and are logged in (`gh auth login`):
-
-```bash
-gh release create vX.Y.Z --title "vX.Y.Z — short title" --notes "Release notes (markdown ok)."
-```
-
-This creates a **GitHub Release** for the existing tag (create the **tag** first with `git tag` as above, then `git push origin vX.Y.Z`). Omit `--notes` and pass `--generate-notes` to fill notes from commits if you prefer.
+   The documentation build will use this tag for version info (see `docs/cmake/GitVersion.cmake`).
 
 ## Git Best Practices
 
@@ -438,7 +386,7 @@ This creates a **GitHub Release** for the existing tag (create the **tag** first
 - **Branch naming** — Use `feature/<short-name>`, or if you adopt release/hotfix branches later: `release/<version>`, `hotfix/<short-name>`.
 - **Before pushing** — Run `git pull --rebase origin main` (from `main` or before merging) to avoid unnecessary merge commits.
 - **No force push** — Do not force-push to `main`; keep history stable for tags and releases.
-- **Tags** — Use **annotated** tags for releases: `git tag -a vX.Y.Z -m "Release message"`. Push **`main`** (or the release branch) first if needed, then push the tag: `git push origin vX.Y.Z`.
+- **Tags** — Use annotated tags for releases: `git tag -a v1.2.0 -m "Release message"`. Push tags explicitly: `git push origin v1.2.0`.
 - **Secrets** — Never commit `.env` or secrets; they are listed in `.gitignore`.
 
 ## Environment Information

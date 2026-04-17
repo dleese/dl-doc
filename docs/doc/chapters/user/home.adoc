@@ -9,8 +9,9 @@ Logipad supports the operator’s EFB programme. Always follow your operator’s
 
 The screenshot below shows the Home screen after a successful login.
 
-.Home module successful login
-image::ios_Home.png[Example Image, width=600, alt="Logipad Home View"]
+[.center-caption]
+.Home screen — successful login
+image::ios_Home.png[Logipad Home screen after successful login,75%,float="center",align="center"]
 
 The Home screen is typically divided into these areas:
 
@@ -23,7 +24,9 @@ The Home screen is typically divided into these areas:
 == Login/Synchronize
 After login, the navigation menu may show badges. A red badge indicates new or updated content.
 
-image::ios_home_menu.png[Example Image, width=600, alt="Logipad Home View"]
+[.center-caption]
+.Home screen — navigation menu with badges
+image::ios_home_menu.png[Logipad Home screen navigation menu,75%,float="center",align="center"]
 
 Tap *Synchronize* to download the latest operational data to the device. Synchronization ensures the content on the EFB matches the current server state (subject to connectivity and operator configuration).
 
@@ -36,7 +39,9 @@ Do not rely on cached data alone. Confirm a successful synchronization in accord
 == User Information
 The User Information area shows the signed-in account. To log out, tap the user information area, then confirm by tapping btn:[Logout].
 
-image::ios_logout.png[Example Image, width=300, alt="Logipad logout"]
+[.center-caption]
+.User Information area — logout confirmation
+image::ios_logout.png[Logipad logout confirmation,50%,float="center",align="center"]
 
 == Content and Information view
 The Status and Notifications area shows operational status information and messages relevant to the current user. The exact content depends on operator configuration and available connectivity.
@@ -47,8 +52,9 @@ The Favorites and History area provides quick access to:
 * *Favorites* — items you marked for fast access.
 * *History* — recently opened items (for example, documents opened in the Documentation module).
 
+[.center-caption]
 .Favorites and History view
-image::ios_Favorites_History.png[Example Image, width=300, alt="Favorites and History view"]
+image::ios_Favorites_History.png[Logipad Favorites and History view,50%,float="center",align="center"]
 
 == News Section View
 If enabled, the News section displays announcements and updates published by the operator (for example operational messages or brief notices). Treat operator-published information as guidance only; cross-check against the operator’s controlled documentation when required.

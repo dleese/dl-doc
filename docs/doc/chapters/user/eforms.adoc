@@ -1,7 +1,7 @@
 = eForms
 The _eforms_ Module in Logipad provides pilots with the ability to manage and access electronic forms, checklists, and other operational documents. It serves as a digital platform for storing, organizing, and completing various types of forms and checklists related to flight operations. _eforms_ can be created with Logipad's eFormGenerator tool, which allows users to design and customize forms according to their specific needs and requirements.
 
-the following list are some examples of possible eForms:
+The following list shows some examples of possible eForms:
 
 * Flight Crew Report
 * Technical Log
@@ -16,7 +16,7 @@ the following list are some examples of possible eForms:
 
 eForms are not related to Pilots only. The eForms module can be used by all crew members, including cabin crew and ground staff. The module allows users to create, edit, and submit forms electronically, ensuring that all necessary information is captured accurately and efficiently.
 
-After an _eForm_ is completed, it can be submitted electronically to the Logipad server for archiving and analysis. Workflows can also be defined to ensure that the completed forms are routed to the appropriate personnel for review and action. eForms data will be stored in LOgipad's internal database and can be accessed by authorized users for reporting and analysis purposes. The data can also be exported in various formats (e.g., CSV, PDF) for further processing or integration with other systems.
+After an _eForm_ is completed, it can be submitted electronically to the Logipad server for archiving and analysis. Workflows can also be defined to ensure that the completed forms are routed to the appropriate personnel for review and action. eForms data will be stored in Logipad's internal database and can be accessed by authorized users for reporting and analysis purposes. The data can also be exported in various formats (e.g., CSV, PDF) for further processing or integration with other systems.
 The _eForms_ module also supports offline access, allowing users to complete forms even without an internet connection. Once connectivity is restored, the completed forms will be synchronized with the Logipad server. 
 
 == eForms Features
@@ -32,79 +32,85 @@ The _eforms_ module includes the following features to assist pilots in managing
 == eForms Global Settings
 The _eForms_ module includes global settings that can be configured by the Logipad administrator. These settings apply to all users and all eForms. The global settings include:
 
+[.center-caption]
 .eForms Global Settings
-image::ios_eForm_global_settings.png[Example Image, width=600, alt="Logipad global eForms settings"]
+image::ios_eForm_global_settings.png[Logipad global eForms settings,75%,float="center",align="center"]
 
-* Upload eForms immediately
-    ** _yes_ Upload eForms to the Logipad server, when the form is completed and a WiFi connection is available.
-    ** _no_ Upload eForms to the Logipad server, when the form is completed and a WiFi connection is available. The eForm will be stored locally until the user manually uploads it to the Logipad server.
+* *Upload eForms immediately*
+    ** _yes_ Upload eForms to the Logipad server when the form is completed and a WiFi connection is available.
+    ** _no_ The eForm is stored locally until the user manually uploads it to the Logipad server.
 
 == eForm Views
 The eForms module allows users to view and manage their eForms. The eForms view includes a list of all available eForms assigned to the user, which can be searched, filtered and sorted. See below an example of the _eForm_ standard view.
 
+[.center-caption]
 .eForms Standard View
-image::ios_eForm_Standard_View.png[Example Image, width=600, alt="eForms standard view"]
+image::ios_eForm_Standard_View.png[eForms standard view,75%,float="center",align="center"]
 
-The next picture shows the filter options for the _eForms_ view. 
+The screenshot below shows the filter options for the _eForms_ view.
 
-.eForms Standard View 
-image::ios_eForm_Standard_View_Filter_Options.png[Example Image, width=600, alt="eForms standard view filter options"]
+[.center-caption]
+.eForms filter options
+image::ios_eForm_Standard_View_Filter_Options.png[eForms filter options,75%,float="center",align="center"]
 
-* Sort eForm by
-    ** *_Date_* Sort eForms by date
-    ** *_Name_* Sort eForms by name
-      
-* Filter eForm by
-    ** *_All eForms_* Show all eForms
-    ** *_Grouped eForms_* Show all eForms in a Grouped View
-    ** *_Draft eForms_* Show all Draft eForms
-    ** *_Outbox eForms_* Show all Outbox eForms
+* *Sort eForm by*
+    ** _Date_ Sort eForms by date
+    ** _Name_ Sort eForms by name
 
-See below an example of the _eForm_ grouped view. 
+* *Filter eForm by*
+    ** _All eForms_ Show all eForms
+    ** _Grouped eForms_ Show all eForms in a grouped view
+    ** _Draft eForms_ Show all draft eForms
+    ** _Outbox eForms_ Show all outbox eForms
 
-.eForms Standard View
-image::ios_eForm_Grouped_View.png[Example Image, width=600, alt="eForms Grouped view for eForms"]
+The screenshot below shows an example of the _eForm_ grouped view.
 
-Tabbing on an _eForm_ in the view will open the _eForm_ for editing. The _eForm_ can be edited and saved as a draft or submitted to the Logipad server.
+[.center-caption]
+.eForms grouped view
+image::ios_eForm_Grouped_View.png[eForms grouped view,75%,float="center",align="center"]
 
-.eForms Standard View
-image::ios_eForm_Contact_form.png[Example Image, width=600, alt="eForms Grouped view for eForms"]
+Tap an _eForm_ in the view to open it for editing. The _eForm_ can be edited and saved as a draft or submitted to the Logipad server.
 
-The screenshot above shows an example of a contact form. The contact form is a simple eForm with some mandatory fields. Input fields can be prefilled with data from the Logipad database. In the example above the _eForm_ is prefilled with the user name and the user email address. WHich data are prefilled depends on the customer configuration and environment setup. 
+[.center-caption]
+.eForms contact form example
+image::ios_eForm_Contact_form.png[eForms contact form example,75%,float="center",align="center"]
+
+The screenshot above shows an example of a contact form. The contact form is a simple eForm with some mandatory fields. Input fields can be prefilled with data from the Logipad database. Which data are prefilled depends on the customer configuration and environment setup. 
 
 == eForm states
 The _eForms_ module includes different states for eForms to help users manage their forms effectively. The following states are available:
 
-* *_Draft_* eForms: eForms that have been started but not yet completed. Drafts can be saved and edited later.
-* *_Outbox_* eForms: eForms that have been submitted but not yet uploaded to the Logipad server. The outbox will be stored locally on the device until it is uploaded to the Logipad server.
-* *_Sent_* eForms: eForms that have been successfully uploaded to the Logipad server.
+* _Draft_ eForms — eForms that have been started but not yet completed. Drafts can be saved and edited later.
+* _Outbox_ eForms — eForms that have been submitted but not yet uploaded to the Logipad server. The outbox is stored locally on the device until it is uploaded.
+* _Sent_ eForms — eForms that have been successfully uploaded to the Logipad server.
 
 == eForm Drafts
 An eForm Draft is an eForm that has been started but not yet completed. The draft can be saved and edited later. The draft will be stored locally on the device until it is submitted to the Logipad server. A Draft can also be used as a template for future eForms. For example, if a user frequently fills out the same form, they can create a draft and use it as a template for future submissions. This saves time and ensures consistency in the data entered.
 Users can create multiple drafts of the same eForm. Drafts can be manually deleted by the user with a left swipe gesture on the draft cell in the eForm view. Possible actions for the eForms in this section are:
 
-* *_Export as PDF to Transfer_* Export the eForm to a PDF file and copy it to the Logipad _Transfer_ section. 
-* *_Export as PDF per Email_* Export the eForm to a PDF file and send it via email. The email will be sent from the default email client on the device. The user can select the recipient and add additional information to the email.
-* *_Print_* Print the eForm
-* *_Delete_* Delete the eForm from the device. The eForm will be deleted from the device and cannot be recovered. The eForm will be removed from the _eForm Sent_ section.
+* *Export as PDF to Transfer*Export the eForm to a PDF file and copy it to the Logipad _Transfer_ section. 
+* *Export as PDF per Email*Export the eForm to a PDF file and send it via email. The email will be sent from the default email client on the device. The user can select the recipient and add additional information to the email.
+* *Print* —Print the eForm
+* *Delete* —Delete the eForm from the device. The eForm will be deleted from the device and cannot be recovered. The eForm will be removed from the _eForm Sent_ section.
 
 == eForm Outbox
 eForms which are visible inside the _eForm Outbox_ section has been submitted but not yet uploaded to the Logipad server. The reason could be a WiFi outage or no availability of a WiFi connection. The content of the outbox will be stored locally on the device until it is uploaded to the Logipad server. Once the device is connected to the internet, the content of the outbox will be automatically uploaded to the Logipad server. The eForm section is cleared and content is moving from the outbox to the _eForm Sent ( read only)_ section.
 Possible actions for the eForms in this section are:
 
-* *_Export as PDF to Transfer_* Export the eForm to a PDF file and copy it to the Logipad _Transfer_ section. 
-* *_Export as PDF per Email_* Export the eForm to a PDF file and send it via email. The email will be sent from the default email client on the device. The user can select the recipient and add additional information to the email.
-* *_Print_* Print the eForm
-* *_Delete_* Delete the eForm from the device. The eForm will be deleted from the device and cannot be recovered. The eForm will be removed from the _eForm Sent_ section.
+* *Export as PDF to Transfer*Export the eForm to a PDF file and copy it to the Logipad _Transfer_ section. 
+* *Export as PDF per Email*Export the eForm to a PDF file and send it via email. The email will be sent from the default email client on the device. The user can select the recipient and add additional information to the email.
+* *Print* —Print the eForm
+* *Delete* —Delete the eForm from the device. The eForm will be deleted from the device and cannot be recovered. The eForm will be removed from the _eForm Sent_ section.
 
 == eForm Sent
-eForms which have been sent to the Logipad System are visible inside the _eForm Sent_ section. The eForms in this section are read only and cannot be edited. The eForms in this section can be exported to a PDF file or printed. The eForms in this section can also be deleted by the user with a left swipe gesture on the eForm cell in the eForm view. Possible actions for the eForms in this section ar
+eForms which have been sent to the Logipad System are visible inside the _eForm Sent_ section. The eForms in this section are read only and cannot be edited. The eForms in this section can be exported to a PDF file or printed. The eForms in this section can also be deleted by the user with a left swipe gesture on the eForm cell in the eForm view. Possible actions for the eForms in this section are:
 
-* *_Export as PDF to Transfer_* Export the eForm to a PDF file and copy it to the Logipad _Transfer_ section. 
-* *_Export as PDF per Email_* Export the eForm to a PDF file and send it via email. The email will be sent from the default email client on the device. The user can select the recipient and add additional information to the email.
-* *_Print_* Print the eForm
-* *_Delete_* Delete the eForm from the device. The eForm will be deleted from the device and cannot be recovered. The eForm will be removed from the _eForm Sent_ section.
-* *_Copy_* Copy the eForm to the _eForm Draft_ section. The eForm will be copied to the _eForm Draft_ section with the same content as the original filled eForm. The eForm will moved to the _eForm Draft_ section. The eForm can be edited and submitted again.
+* *Export as PDF to Transfer*Export the eForm to a PDF file and copy it to the Logipad _Transfer_ section. 
+* *Export as PDF per Email*Export the eForm to a PDF file and send it via email. The email will be sent from the default email client on the device. The user can select the recipient and add additional information to the email.
+* *Print* —Print the eForm
+* *Delete* —Delete the eForm from the device. The eForm will be deleted from the device and cannot be recovered. The eForm will be removed from the _eForm Sent_ section.
+* *Copy* — Copy the eForm to the _eForm Draft_ section. The eForm will be copied to the _eForm Draft_ section with the same content as the original filled eForm. The eForm will moved to the _eForm Draft_ section. The eForm can be edited and submitted again.
 
-.eForms ContactForm states 
-image::ios_eForm_ContactForm_Grouped_View.png[Example Image, width=600, alt="eForms ContactForm Grouped view for eForms"]
+[.center-caption]
+.eForms contact form — states view
+image::ios_eForm_ContactForm_Grouped_View.png[eForms contact form grouped view showing Draft, Outbox, and Sent states,75%,float="center",align="center"]

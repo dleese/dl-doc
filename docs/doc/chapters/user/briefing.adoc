@@ -26,23 +26,24 @@ Operators must implement their EFB programme, configuration control, and data-cu
 If there is a conflict between this guide and operator-approved procedures, the operator-approved procedures take precedence.
 ====
 
-Figure:[Briefing module] provides an example of the Briefings module view.
+The screenshot below shows an example of the Briefings module view.
 
+[.center-caption]
 .Briefing module
-image::ios_Briefing_MasterUser_HKG_CVG.png[Example Image, width=600, alt="Logipad Briefing View"]
+image::ios_Briefing_MasterUser_HKG_CVG.png[Logipad Briefing module view,75%,float="center",align="center"]
 
 The example shows a briefing list filtered by departure and arrival (HKG–CVG). The list can also be filtered by date, flight number, comment, or OFP version.
 
 In this example:
 
-* The crown icon indicates the briefing is assigned to the *Master* user (Pilot in Command), if your operator uses this role model.
+* The crown icon indicates the briefing is assigned to the *Master User* (Pilot in Command), if your operator uses this role model.
 * The list shows metadata such as Flight ID, STD (scheduled time of departure), and OFP (operational flight plan).
 * The three-dot menu (…​) opens additional actions.
 * The information icon opens the detailed briefing information view.
 
 The Briefing module allows crew to activate a briefing before flight. A briefing can be activated from the briefing list or from within the briefing package itself.
 
-Depending on operator configuration, activation may be available to both pilots. Finalization/sign-off is typically restricted to the Pilot in Command (Master user).
+Depending on operator configuration, activation may be available to both pilots. Finalization/sign-off is typically restricted to the Pilot in Command (Master User).
 
 [WARNING]
 ====
@@ -54,15 +55,16 @@ Do not use a workflow that bypasses required approvals or sign-off steps.
 == Global Briefing Settings
 Global Briefing Settings are configured by the Logipad administrator and apply to all users and briefing packages.
 
+[.center-caption]
 .Global Briefing Settings View
-image::ios_global_briefing_settings.png[Example Image, width=600, alt="global Briefing Settings"]
+image::ios_global_briefing_settings.png[Global Briefing Settings view,75%,float="center",align="center"]
 
 .Global Briefing Settings
-* Recent Briefings Filter
+* *Recent Briefings Filter*
     ** _none_ Show all briefings
-    ** _STD_ not later than 24 hours before the scheduled time of departure
+    ** _STD_ Not later than 24 hours before the scheduled time of departure
 
-* Remove archived briefings after
+* *Remove archived briefings after*
     ** _2 weeks_ Remove archived briefings after 2 weeks
     ** _1 month_ Remove archived briefings after 1 month
     ** _3 months_ Remove archived briefings after 3 months
@@ -70,16 +72,16 @@ image::ios_global_briefing_settings.png[Example Image, width=600, alt="global Br
     ** _1 year_ Remove archived briefings after 1 year
     ** _Never_ Never remove archived briefings
 
-* Display F/U-Updates separately
+* *Display F/U-Updates separately*
     ** _yes_ Show F/U-Updates in the briefing detailed view
-    ** _no_ Show latest package only. The latest version can also be a merged updated package with the latest full updated Version.
+    ** _no_ Show latest package only. The latest version can also be a merged updated package with the latest full updated version.
 
-* Upload finalized briefings immediately
+* *Upload finalized briefings immediately*
     ** _yes_ Upload finalized briefings to the Logipad server when connectivity is available.
     ** _no_ Upload is manual. The user uploads by pull-to-refresh (swipe down) or by tapping *Synchronize* on the Home view.
 
-* Automatic Briefing Transfer
-    ** _yes_ Recorded data is transferred automatically to other devices working on the same Flight ID. This helps the Master user and First Officer stay synchronized. Requirement: the other devices must also have this setting enabled.
+* *Automatic Briefing Transfer*
+    ** _yes_ Recorded data is transferred automatically to other devices working on the same Flight ID. This helps the Master User and First Officer stay synchronized. Requirement: the other devices must also have this setting enabled.
     ** _no_ Recorded briefing data is not transferred automatically. The user transfers data manually (see Manual briefing transfer).
 
 == Briefing Activation
@@ -87,43 +89,53 @@ Tap on the three dots on the right hand side of the briefing package inside the 
 
 NOTE: If automatic briefing transfer is enabled, activating a briefing may also activate it on other devices using the same flight (Flight ID), depending on configuration.
 
+[.center-caption]
 .Briefing with Master User assigned
-image::ios_Briefing_MasterUser_HKG_CVG_Activate_Master.png[Example Image, width=600, alt="Logipad Briefing activate Master User view"]
+image::ios_Briefing_MasterUser_HKG_CVG_Activate_Master.png[Briefing activation menu — Master User assigned,75%,float="center",align="center"]
 
-While the Master user is shown *activate* only, the First Officer is shown *activate non‑Master copy* and (if enabled) *Force failover*. See screenshot below.
+While the Master User is shown *activate* only, the First Officer is shown *activate non‑Master copy* and (if enabled) *Force failover*. See screenshot below.
 
-.Briefing no Master User assigned
-image::ios_Briefing_NoMasterUser_HKG_CVG_Activate_Master.png[Example Image, width=600, alt="Logipad Briefing (no Master user assigned)"]
+[.center-caption]
+.Briefing with no Master User assigned
+image::ios_Briefing_NoMasterUser_HKG_CVG_Activate_Master.png[Briefing activation menu — no Master User assigned,75%,float="center",align="center"]
 
 * *activate non‑Master copy* indicates that the current user is assigned as First Officer for that flight. First Officers typically cannot finalize briefing packages.
 
-* *Force failover* should only be used when the Master user cannot sign/finalize the briefing (for example due to device failure). It transfers Master responsibilities to the First Officer so the briefing can be completed.
+* *Force failover* should only be used when the Master User cannot sign/finalize the briefing (for example due to device failure). It transfers Master responsibilities to the First Officer so the briefing can be completed.
 
-WARNING: The _Force failover_ option should be used with caution and only when necessary. It is important to ensure that the _First Officer_ is fully aware of the implications of taking over the _Master User_ role.
+[WARNING]
+====
+Force failover responsibility::
+Use _Force failover_ only when the Master User cannot finalize the briefing (for example due to device failure). Ensure the First Officer is fully aware of the implications of taking over the Master User role.
+====
 
 When a briefing is activated, its status changes to *active* and the icon on the left turns green. When you open the briefing package, the status is shown in the top-left corner. If automatic briefing transfer is enabled, a blinking green dot may be shown.
 
-.Briefing activated by a non‑Master user
-image::ios_Briefing_active_None_Master_User.png[Example Image, width=600, alt="Briefing activated by a non‑Master user"]
+[.center-caption]
+.Briefing activated by a non-Master User
+image::ios_Briefing_active_None_Master_User.png[Briefing list — activated by a non-Master User,75%,float="center",align="center"]
 
-.Briefing activated by a non‑Master user (briefing opened)
-image::ios_Briefing_active_None_Master_User_inside_Briefing.png[Example Image, width=600, alt="Briefing activated by a non‑Master user (briefing opened)"]
+[.center-caption]
+.Briefing activated by a non-Master User (briefing opened)
+image::ios_Briefing_active_None_Master_User_inside_Briefing.png[Briefing package — activated by a non-Master User,75%,float="center",align="center"]
 
 == Briefing Menu Content
 When opening a Briefing package, the briefing content can look similar to the screenshot below. On the left-hand side, you see sections of the current content structure of the briefing. The content and structure are individually configured for each airline and can differ. Keep in mind that the content structure is different for each airline and can be customized. The example below is just a sample of the content structure.
 
+[.center-caption]
 .Briefing Menu Content Example
-image::ios_Briefing_MasterUser_HKG_CVG_Open_Master.png[Example Image, width=600, alt="Logipad Briefing Content Structure"]
+image::ios_Briefing_MasterUser_HKG_CVG_Open_Master.png[Logipad briefing package content structure,75%,float="center",align="center"]
 
 The sections typically include:
 
-* **Flight Plan**: Detailed operational flight plan with routing and fuel calculations.
-* **Weather**: Weather reports and forecasts for departure, en-route, and arrival airports.
-* **NOTAMs**: Notices to Airmen relevant to the flight.
-* **Weather Charts**: Graphical weather representations, such as wind charts or turbulence maps.
-* **Additional Documents**: Any supplementary documents required for the flight, such as airport charts or airline-specific instructions.
+* *Flight Plan* — Detailed operational flight plan with routing and fuel calculations.
+* *Weather* — Weather reports and forecasts for departure, en-route, and arrival airports.
+* *NOTAMs* — Notices to Airmen relevant to the flight.
+* *Weather Charts* — Graphical weather representations, such as wind charts or turbulence maps.
+* *Additional Documents* — Any supplementary documents required for the flight, such as airport charts or airline-specific instructions.
 
 Each section can be expanded to view detailed information, and users can navigate between sections using the menu on the left-hand side.
 
+[.center-caption]
 .Briefing Info
-image::ios_Briefing_MasterUser_HKG_CVG_Open_Master.png[Example Image, width=600, alt="Logipad Briefing Info (example)"]
+image::ios_Briefing_MasterUser_HKG_CVG_Open_Master.png[Logipad briefing package info view,75%,float="center",align="center"]

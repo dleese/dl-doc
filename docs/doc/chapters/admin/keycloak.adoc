@@ -24,12 +24,12 @@ ifdef::enable-azure[]
 To configure Keycloak to authenticate against Microsoft Azure Active Directory (Entra ID):
 
 . Open the Keycloak administration console and select the target realm.
-. In the left menu, go to "Identity Providers" and click "Add provider".
-. Select "OpenID Connect v1.0" as the provider type.
-. Enter a name for the identity provider (e.g. "AzureAD").
-. In "OpenID Connect Configuration URL", enter the Entra ID metadata URL: `https://login.microsoftonline.com/{tenant-id}/v2.0/.well-known/openid-configuration` (replace `{tenant-id}` with your Azure tenant ID).
-. Enter the Client ID and Client Secret from the Azure AD app registration for this Keycloak instance.
-. Set the appropriate scopes (typically `openid email profile`) and save.
+. In the left menu, go to *Identity Providers* and click *Add provider*.
+. Select *OpenID Connect v1.0* as the provider type.
+. Enter a name for the identity provider (for example *AzureAD*).
+. In *OpenID Connect Configuration URL*, enter the Entra ID metadata URL: `https://login.microsoftonline.com/{tenant-id}/v2.0/.well-known/openid-configuration` (replace `{tenant-id}` with your Azure tenant ID).
+. Enter the *Client ID* and *Client Secret* from the Azure AD app registration for this Keycloak instance.
+. Set the appropriate scopes (typically `openid email profile`) and click *Save*.
 
 After saving, users can sign in with Microsoft Azure AD when accessing Logipad applications. Keycloak federates authentication and user identity from Entra ID.
 endif::[]
