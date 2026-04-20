@@ -12,6 +12,9 @@ node_modules/
 # ignore the build directory
 build/
 
+# ignore local qodo
+.qodo/
+
 # ignore generated files
 docs/*.html 
 docs/*.pdf

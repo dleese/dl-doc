@@ -25,12 +25,82 @@ Generic or shared administrator logins are not permitted.
 
 . Navigate to *General > Users*.
 . Click *Create new User* (the main button, not the dropdown arrow).
-. Complete the required fields in the user creation form: login name, e-mail address, assigned user type, and any operator-specific attributes.
-. Save the record.
-
+  The *Create new User* dialog opens.
++
 [.center-caption]
-.Create new User — action button and dropdown
-image::mui_user_create.png[Create new user button,40%,float="center",align="center"]
+.Create new User dialog
+image::mui_create_new_user.png[Create new User dialog,75%,float="center",align="center"]
++
+. Complete the fields as described in the table below.
+. Click *Save* to create the account, or *Cancel* to discard all entries and close the dialog.
+
+=== Field reference
+
+[cols="1,1,3",options="header"]
+|===
+|Field |Required |Description
+
+|*Login Name*
+|Yes (*)
+|Unique identifier used to log in to the EFB application.
+Must be unambiguous and traceable to a named individual.
+Once set, the login name cannot be changed without creating a new account.
+
+|*Full Name*
+|No
+|Display name of the user (e.g. first name and surname).
+Used in reports and audit logs to identify the individual.
+
+|*E-Mail*
+|No
+|The user's e-mail address.
+Used for system notifications and password-reset communication.
+Must be unique within the system.
+
+|*3LC*
+|No
+|Three-letter crew code (IATA standard), if applicable to the operator's rostering system.
+
+|*Employee id*
+|No
+|Internal employee or personnel number as maintained in the operator's HR system.
+Useful for reconciliation with crew rosters during audits.
+
+|*Type*
+|No
+|Dropdown selecting the user type (role classification).
+User types must be defined in advance under *User Types* and must correspond to roles documented in the operator's EFB Programme.
+
+|*Department*
+|No
+|Organisational department the user belongs to (e.g. Flight Operations, Dispatch).
+
+|*Content Roles*
+|No
+|Dropdown assigning one or more content roles that control which documents and content packages the user can access in the EFB application.
+
+|*Access Groups*
+|No
+|Multi-select field assigning the user to one or more access groups (e.g. *User*, *All App Modules*).
+Each tag can be removed individually with the × control next to it.
+Access groups determine which application modules and features are available to the user.
+
+|*Reportable*
+|No
+|Toggle (*Yes* / *No*).
+When set to *Yes* (default), the account is included in regulatory and operational reports.
+Set to *No* only for non-operational or test accounts.
+
+|*Active*
+|No
+|Toggle (*Yes* / *No*).
+When set to *Yes* (default), the user can log in immediately after account creation.
+Set to *No* to create the account in a disabled state.
+
+|*Description*
+|No
+|Free-text field for additional notes about the user or the account's purpose.
+|===
 
 [WARNING]
 ====
